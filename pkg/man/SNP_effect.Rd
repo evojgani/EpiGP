@@ -4,14 +4,14 @@
 \alias{SNP_effect}
 \title{Pairwise SNP Interaction Effects Function}
 \usage{
-SNP_effect(M, pheno_train, G_all)
+SNP_effect(m, pheno_train, G_ERRBLUP)
 }
 \arguments{
-\item{M}{{0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns}
 
 \item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
 
-\item{G_all}{EERRBLUP relationship matrix with row names and column names of all individuals}
+\item{G_ERRBLUP}{EERRBLUP relationship matrix with row names and column names of all individuals}
 }
 \value{
 A vector of all estimated pairwise SNP interaction effects
@@ -24,9 +24,9 @@ library(BGLR)
 data(wheat)
 pheno <- wheat.Y[1:100,1]
 pheno_train <- pheno[1:round(4*length(pheno)/5)]
-M <- Recodemarker(wheat.X[1:100,])
-rownames(M) <- names(pheno)
-G_all <- Gall(M)
-u_hat <- SNP_effect(M, pheno_train, G_all)
+m <- Recodemarker(wheat.X[1:100,])
+rownames(m) <- names(pheno)
+G_ERRBLUP <- Gall(m)
+t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
 
 }
