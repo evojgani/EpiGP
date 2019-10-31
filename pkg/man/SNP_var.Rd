@@ -11,7 +11,7 @@ SNP_var(m, pheno_train, t_hat)
 
 \item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
 
-\item{t_hat}{A vector of all estimated pairwise SNP interaction effects variances}
+\item{t_hat}{A vector of all estimated pairwise SNP interaction effects}
 }
 \value{
 A vector of all pairwise SNP interaction effects variances
