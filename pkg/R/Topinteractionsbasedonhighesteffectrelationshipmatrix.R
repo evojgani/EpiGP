@@ -1,12 +1,12 @@
 
-#' @title sERRBLUP Relationship Matrix Function based on effect sizes selection
+#' @title sERRBLUP Relationship Matrix Function
 #'
-#' @description Function to generate relationship matrix based on the top desired estimated pairwise SNP interaction effects
+#' @description Function to generate relationship matrix based on the desired proportion of pairwise SNP interactions
 #'
-#' @param M {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
+#' @param m {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
 #' @param pheno A phenotype vector with names for each phenotypic value
-#' @param estimations A vector of all estimated pairwise SNP interaction effects or all estimated variances pairwise SNP interaction effects variances
-#' @param k Desired percentage of SNP interactions to be included in the model
+#' @param estimations A vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances
+#' @param k Desired proportion of SNP interactions to be included in the model
 #'
 #' @return sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals
 #'
@@ -15,24 +15,24 @@
 #' data(wheat)
 #' pheno <- wheat.Y[1:100,1]
 #' pheno_train <- pheno[1:round(4*length(pheno)/5)]
-#' M <- Recodemarker(wheat.X[1:100,])
-#' rownames(M) <- names(pheno)
-#' G_all <- Gall(M)
-#' u_hat <- SNP_effect(M, pheno_train, G_all)
-#' u_hat_var <- SNP_var(M, pheno_train, u_hat)
+#' m <- Recodemarker(wheat.X[1:100,])
+#' rownames(m) <- names(pheno)
+#' G_ERRBLUP <- Gall(m)
+#' t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
+#' sigma_hat <- SNP_var(m, pheno_train, t_hat)
 #' k <- 10
-#' Gtop_effect <- Gtop(M, pheno , u_hat, k)
-#' Gtop_var <- Gtop(M, pheno , u_hat_var, k)
+#' Gtop_effect <- Gtop(m, pheno , t_hat, k)
+#' Gtop_var <- Gtop(m, pheno , sigma_hat, k)
 #'
 #' @export
 #'
 
 
-Gtop <- function(M, pheno, estimations, k){
+Gtop <- function(m, pheno, estimations, k){
 
 
-  M <- M[rownames(M) %in% names(pheno), ] # names(y_real)=Genotype
-  Z <- t(M)
+  m <- m[rownames(m) %in% names(pheno), ] # names(y_real)=Genotype
+  Z <- t(m)
 
 
   nsnp <- nrow(Z)
@@ -135,8 +135,8 @@ Gtop <- function(M, pheno, estimations, k){
 
   G_k <- G / (2 * sum(p_i*(1-p_i)))
 
-  rownames(G_k) <- rownames(M)
-  colnames(G_k) <- rownames(M)
+  rownames(G_k) <- rownames(m)
+  colnames(G_k) <- rownames(m)
 
   return(G_k)
 
