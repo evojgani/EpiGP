@@ -10,7 +10,7 @@
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' Recodemarker(wheat.X)
+#' m <- Recodemarker(wheat.X)
 #'
 #' @export
 #'
@@ -35,7 +35,7 @@ Recodemarker <- function(M){
 
   }
 
-   return(M)
+  return(M)
 }
 
 
