@@ -2,32 +2,32 @@
 % Please edit documentation in R/AllSNPeffectvariancecalculation.R
 \name{SNP_var}
 \alias{SNP_var}
-\title{Function To calculate all pairwise SNP interaction effects variances}
+\title{Pairwise SNP Interaction Effects Variances Function}
 \usage{
-SNP_var(M, pheno_train, SNP_effect)
+SNP_var(m, pheno_train, t_hat)
 }
 \arguments{
-\item{M}{{0,1,2} or {0,2} coding Marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coding Marker matrix with individuals in the rows and the markers in the columns}
 
 \item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
 
-\item{SNP_effect}{is a vector of all estimated pairwise SNP interaction effects}
+\item{t_hat}{A vector of all estimated pairwise SNP interaction effects variances}
 }
 \value{
 A vector of all pairwise SNP interaction effects variances
 }
 \description{
-Function to calculate all pairwise SNP interaction effects varinacs. miraculix package needs to be initially installed for this function.
+Function to calculate all pairwise SNP interaction effects varinacs
 }
 \examples{
 library(BGLR)
 data(wheat)
 pheno <- wheat.Y[1:100,1]
 pheno_train <- pheno[1:round(4*length(pheno)/5)]
-M <- Recodemarker(wheat.X[1:100,])
-rownames(M) <- names(pheno)
-G_all <- Gall(M)
-u_hat <- SNP_effect(M, pheno_train, G_all)
-u_hat_var <- SNP_var(M, pheno_train, u_hat)
+m <- Recodemarker(wheat.X[1:100,])
+rownames(m) <- names(pheno)
+G_ERRBLUP <- Gall(m)
+t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
+sigma_hat <- SNP_var(m, pheno_train, t_hat)
 
 }
