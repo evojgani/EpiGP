@@ -18,6 +18,6 @@ Function to recode marker data from {-1, 0, 1} to {0, 1, 2} or from {0, 1} to {0
 \examples{
 library(BGLR)
 data(wheat)
-Recodemarker(wheat.X)
+m <- Recodemarker(wheat.X)
 
 }
