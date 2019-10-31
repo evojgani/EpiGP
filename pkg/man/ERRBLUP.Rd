@@ -4,12 +4,12 @@
 \alias{ERRBLUP}
 \title{ERRBLUP Phenotype Prediction Function}
 \usage{
-ERRBLUP(pheno_train, Gall)
+ERRBLUP(pheno_train, G_ERRBLUP)
 }
 \arguments{
 \item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
 
-\item{Gall}{ERRBLUP relationship matrix with row names and column names of all the individuals}
+\item{G_ERRBLUP}{ERRBLUP relationship matrix with row names and column names of all the individuals}
 }
 \value{
 A vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
@@ -21,10 +21,10 @@ Function to do phenotype prediction based on all pairwise SNP interactions
 library(BGLR)
 data(wheat)
 pheno <- wheat.Y[,1]
-M <- Recodemarker(wheat.X)
-rownames(M) <- names(pheno)
-G_all <- Gall(M)
+m <- Recodemarker(wheat.X)
+rownames(m) <- names(pheno)
+G_ERRBLUP <- Gall(m)
 pheno_train <- pheno[1:round(4*length(pheno)/5)]
-Pred_ERRBLUP <- ERRBLUP(pheno_train, G_all)
+Pred_ERRBLUP <- ERRBLUP(pheno_train, G_ERRBLUP)
 
 }
