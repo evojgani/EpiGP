@@ -2,9 +2,10 @@
 #' @title Pairwise SNP Interaction Effects Function
 #'
 #' @description Function to calculate all pairwise SNP interaction effects
-#' @param M {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
+#'
+#' @param m {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
 #' @param pheno_train A subset of one phenotype vector as a training set with names for each phenotypic value
-#' @param G_all EERRBLUP relationship matrix with row names and column names of all individuals
+#' @param G_ERRBLUP EERRBLUP relationship matrix with row names and column names of all individuals
 #'
 #' @return A vector of all estimated pairwise SNP interaction effects
 #'
@@ -13,21 +14,21 @@
 #' data(wheat)
 #' pheno <- wheat.Y[1:100,1]
 #' pheno_train <- pheno[1:round(4*length(pheno)/5)]
-#' M <- Recodemarker(wheat.X[1:100,])
-#' rownames(M) <- names(pheno)
-#' G_all <- Gall(M)
-#' u_hat <- SNP_effect(M, pheno_train, G_all)
+#' m <- Recodemarker(wheat.X[1:100,])
+#' rownames(m) <- names(pheno)
+#' G_ERRBLUP <- Gall(m)
+#' t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
 #'
 #' @export
 #'
 
 
-SNP_effect <- function(M, pheno_train, G_all){
+SNP_effect <- function(m, pheno_train, G_ERRBLUP){
 
-  M <- M[rownames(M) %in% names(pheno_train), ] # names(y_real)=Genotype
-  Z <- t(M)
+  m <- m[rownames(m) %in% names(pheno_train), ] # names(y_real)=Genotype
+  Z <- t(m)
 
-  Gall_train <- G_all[rownames(G_all) %in% names(pheno_train), colnames(G_all) %in% names(pheno_train)]
+  Gall_train <- G_ERRBLUP[rownames(G_ERRBLUP) %in% names(pheno_train), colnames(G_ERRBLUP) %in% names(pheno_train)]
 
   names(pheno_train) <- NULL
 
@@ -80,8 +81,8 @@ SNP_effect <- function(M, pheno_train, G_all){
 
       if (requireNamespace("miraculix", quietly = TRUE)) {
 
-      Z_miraculix <- miraculix::genomicmatrix(Z_share)
-      u_hat[((index-1)*nsnp*4+1):((index)*nsnp*4)] <- miraculix::genoVector(Z_miraculix, Rest_term)
+        Z_miraculix <- miraculix::genomicmatrix(Z_share)
+        u_hat[((index-1)*nsnp*4+1):((index)*nsnp*4)] <- miraculix::genoVector(Z_miraculix, Rest_term)
 
       } else{
 
@@ -135,7 +136,7 @@ SNP_effect <- function(M, pheno_train, G_all){
     }
   }
 
-    u_hat <- u_hat  * 1/ 2 / sum(p_i*(1-p_i))
+  u_hat <- u_hat  * 1/ 2 / sum(p_i*(1-p_i))
 
   return(u_hat)
 
