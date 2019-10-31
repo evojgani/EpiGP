@@ -4,35 +4,35 @@
 \alias{sERRBLUP}
 \title{sERRBLUP Phenotype Prediction Function}
 \usage{
-sERRBLUP(pheno_train, Gall, Gtop)
+sERRBLUP(pheno_train, G_ERRBLUP, Gtop)
 }
 \arguments{
 \item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
 
-\item{Gall}{ERRBLUP relationship matrix with row names and column names of all the individuals}
+\item{G_ERRBLUP}{ERRBLUP relationship matrix with row names and column names of all the individuals}
 
-\item{Gtop}{sERRBLUP Relationship matrix for the top k percent of pairwise SNP interactions with row names and column names of all the individuals}
+\item{Gtop}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals}
 }
 \value{
 A vector of both phenotype estimations of training set and phenotype predictions of test set based on sERRBLUP method
 }
 \description{
-Function to do phenotype prediction based on the top desired pairwise SNP interaction
+Function to do phenotype prediction based on the desired proportion of pairwise SNP interactions
 }
 \examples{
 library(BGLR)
 data(wheat)
 pheno <- wheat.Y[,1]
 pheno_train <- pheno[1:round(4*length(pheno)/5)]
-M <- Recodemarker(wheat.X)
-rownames(M) <- names(pheno)
-G_all <- Gall(M)
-u_hat <- SNP_effect(M, pheno_train, G_all)
-u_hat_var <- SNP_var(M, pheno_train, u_hat)
+m <- Recodemarker(wheat.X)
+rownames(m) <- names(pheno)
+G_ERRBLUP <- Gall(m)
+t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
+sigma_hat <- SNP_var(m, pheno_train, t_hat)
 k <- 10
-Gtop_effect <- Gtop(M, pheno , u_hat, k)
-Gtop_var <- Gtop(M, pheno , u_hat_var, k)
-sERRBLUP_effect <- sERRBLUP(pheno_train, G_all, Gtop_effect)
-sERRBLUP_var <- sERRBLUP(pheno_train, G_all, Gtop_var)
+Gtop_effect <- Gtop(m, pheno, t_hat, k)
+Gtop_var <- Gtop(m, pheno, sigma_hat, k)
+sERRBLUP_effect <- sERRBLUP(pheno_train, G_ERRBLUP, Gtop_effect)
+sERRBLUP_var <- sERRBLUP(pheno_train, G_ERRBLUP, Gtop_var)
 
 }
