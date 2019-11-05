@@ -3,11 +3,11 @@
 #'
 #' @description Function to calculate all pairwise SNP interaction effects
 #'
-#' @param m {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
-#' @param pheno_train A subset of one phenotype vector as a training set with names for each phenotypic value
+#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param pheno_train A subset of one numeric phenotype vector as a training set with names for each phenotypic value
 #' @param G_ERRBLUP EERRBLUP relationship matrix with row names and column names of all individuals
 #'
-#' @return A vector of all estimated pairwise SNP interaction effects
+#' @return A numeric vector of all estimated pairwise SNP interaction effects
 #'
 #' @examples
 #' library(BGLR)
