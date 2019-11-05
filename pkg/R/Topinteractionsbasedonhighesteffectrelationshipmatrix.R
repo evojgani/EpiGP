@@ -31,7 +31,7 @@
 Gtop <- function(m, pheno, estimations, k){
 
 
-  m <- m[rownames(m) %in% names(pheno), ] # names(y_real)=Genotype
+  m <- m[rownames(m) %in% names(pheno), ]
   Z <- t(m)
 
 
@@ -39,8 +39,7 @@ Gtop <- function(m, pheno, estimations, k){
   nindi <- ncol(Z)
 
 
-  # Sequential computation of the genomic relation ship matrix
-  G <- matrix(0, ncol=nindi, nrow=nindi)
+    G <- matrix(0, ncol=nindi, nrow=nindi)
 
   storage.mode(Z) = "integer"
   attr(Z, "dimnames") = NULL
