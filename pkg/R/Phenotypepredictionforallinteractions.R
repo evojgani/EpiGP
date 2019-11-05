@@ -12,7 +12,7 @@
 #' library(BGLR)
 #' data(wheat)
 #' pheno <- wheat.Y[,1]
-#' m <- Recodemarker(wheat.X)
+#' m <- Recodemarkers(wheat.X)
 #' rownames(m) <- names(pheno)
 #' G_ERRBLUP <- Gall(m)
 #' pheno_train <- pheno[1:round(4*length(pheno)/5)]
@@ -24,7 +24,11 @@
 
 ERRBLUP <- function(pheno_train , G_ERRBLUP) {
 
+  if(is.null(names(pheno_train))){
 
+    stop("The individuals are not named")
+
+  } else {
 
   Pheno <- pheno_train[stats::complete.cases(pheno_train)]
   Phenosid <- data.frame(ID = names(Pheno), observation = Pheno)
@@ -56,7 +60,7 @@ ERRBLUP <- function(pheno_train , G_ERRBLUP) {
 
 }
 
-
+}
 
 
 
