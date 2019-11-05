@@ -34,8 +34,6 @@ SNP_var <- function(m, pheno_train, t_hat){
   nindi <- ncol(Z)
 
 
-  # this is cheating since i am assuming the heritability to be known but will not cost a lot of computation time
-
   Z0 <- (Z==0)*2L
   Z1 <- (Z==1)*2L
   Z2 <- (Z==2)*2L
