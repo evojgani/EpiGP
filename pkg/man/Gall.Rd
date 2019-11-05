@@ -7,7 +7,7 @@
 Gall(m)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
 }
 \value{
 ERRBLUP relationship matrix with row names and column names of all the individuals
