@@ -3,7 +3,7 @@
 #'
 #' @description Function to generate relationship matrix based on all pairwise SNP interactions
 #'
-#' @param m {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
+#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
 #'
 #' @return ERRBLUP relationship matrix with row names and column names of all the individuals
 #'
