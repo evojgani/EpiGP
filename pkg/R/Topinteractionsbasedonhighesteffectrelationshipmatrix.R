@@ -3,9 +3,9 @@
 #'
 #' @description Function to generate relationship matrix based on the desired proportion of pairwise SNP interactions
 #'
-#' @param m {0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns
-#' @param pheno A phenotype vector with names for each phenotypic value
-#' @param estimations A vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances
+#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param pheno A numeric phenotype vector with names for each phenotypic value
+#' @param estimations A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances
 #' @param k Desired proportion of SNP interactions to be included in the model
 #'
 #' @return sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals
