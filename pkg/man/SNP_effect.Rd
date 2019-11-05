@@ -7,14 +7,14 @@
 SNP_effect(m, pheno_train, G_ERRBLUP)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
 
-\item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
+\item{pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
 \item{G_ERRBLUP}{EERRBLUP relationship matrix with row names and column names of all individuals}
 }
 \value{
-A vector of all estimated pairwise SNP interaction effects
+A numeric vector of all estimated pairwise SNP interaction effects
 }
 \description{
 Function to calculate all pairwise SNP interaction effects
