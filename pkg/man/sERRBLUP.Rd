@@ -7,14 +7,14 @@
 sERRBLUP(pheno_train, G_ERRBLUP, Gtop)
 }
 \arguments{
-\item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
+\item{pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
 \item{G_ERRBLUP}{ERRBLUP relationship matrix with row names and column names of all the individuals}
 
 \item{Gtop}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals}
 }
 \value{
-A vector of both phenotype estimations of training set and phenotype predictions of test set based on sERRBLUP method
+A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on sERRBLUP method
 }
 \description{
 Function to do phenotype prediction based on the desired proportion of pairwise SNP interactions
