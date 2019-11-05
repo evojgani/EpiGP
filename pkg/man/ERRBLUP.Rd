@@ -7,12 +7,12 @@
 ERRBLUP(pheno_train, G_ERRBLUP)
 }
 \arguments{
-\item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
+\item{pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
 \item{G_ERRBLUP}{ERRBLUP relationship matrix with row names and column names of all the individuals}
 }
 \value{
-A vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
+A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
 }
 \description{
 Function to do phenotype prediction based on all pairwise SNP interactions
