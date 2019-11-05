@@ -18,7 +18,7 @@ Function to generate relationship matrix based on all pairwise SNP interactions
 \examples{
 library(BGLR)
 data(wheat)
-m <- Recodemarker(wheat.X[1:100,])
+m <- Recodemarkers(wheat.X[1:100,])
 rownames(m) <- names(wheat.Y[1:100,3])
 G_ERRBLUP <- Gall(m)
 
