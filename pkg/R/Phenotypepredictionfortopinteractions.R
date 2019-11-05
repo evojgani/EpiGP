@@ -3,11 +3,11 @@
 #'
 #' @description Function to do phenotype prediction based on the desired proportion of pairwise SNP interactions
 #'
-#' @param pheno_train A subset of one phenotype vector as a training set with names for each phenotypic value
+#' @param pheno_train A subset of one numeric phenotype vector as a training set with names for each phenotypic value
 #' @param G_ERRBLUP ERRBLUP relationship matrix with row names and column names of all the individuals
 #' @param Gtop sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals
 #'
-#' @return A vector of both phenotype estimations of training set and phenotype predictions of test set based on sERRBLUP method
+#' @return A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on sERRBLUP method
 #'
 #' @examples
 #' library(BGLR)
