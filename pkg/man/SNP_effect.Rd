@@ -24,7 +24,7 @@ library(BGLR)
 data(wheat)
 pheno <- wheat.Y[1:100,1]
 pheno_train <- pheno[1:round(4*length(pheno)/5)]
-m <- Recodemarker(wheat.X[1:100,])
+m <- Recodemarkers(wheat.X[1:100,])
 rownames(m) <- names(pheno)
 G_ERRBLUP <- Gall(m)
 t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
