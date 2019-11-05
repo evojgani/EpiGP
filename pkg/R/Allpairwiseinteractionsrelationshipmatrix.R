@@ -10,7 +10,7 @@
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' m <- Recodemarker(wheat.X[1:100,])
+#' m <- Recodemarkers(wheat.X[1:100,])
 #' rownames(m) <- names(wheat.Y[1:100,3])
 #' G_ERRBLUP <- Gall(m)
 #'
@@ -18,6 +18,12 @@
 #'
 
 Gall <- function(m){
+
+  if(is.null(row.names(m))){
+
+    stop("The individuals are not named")
+
+  } else {
 
   Z <- t(m)
 
@@ -119,7 +125,7 @@ Gall <- function(m){
   return(G_all)
 }
 
-
+}
 
 
 
