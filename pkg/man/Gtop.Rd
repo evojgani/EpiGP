@@ -8,11 +8,11 @@
 Gtop(m, pheno, estimations, k)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded Marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
 
-\item{pheno}{A phenotype vector with names for each phenotypic value}
+\item{pheno}{A numeric phenotype vector with names for each phenotypic value}
 
-\item{estimations}{A vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
+\item{estimations}{A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
 
 \item{k}{Desired proportion of SNP interactions to be included in the model}
 }
