@@ -3,10 +3,10 @@
 #'
 #' @description Function to do phenotype prediction based on all pairwise SNP interactions
 #'
-#' @param pheno_train A subset of one phenotype vector as a training set with names for each phenotypic value
+#' @param pheno_train A subset of one numeric phenotype vector as a training set with names for each phenotypic value
 #' @param G_ERRBLUP ERRBLUP relationship matrix with row names and column names of all the individuals
 #'
-#' @return A vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
+#' @return A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
 #'
 #' @examples
 #' library(BGLR)
