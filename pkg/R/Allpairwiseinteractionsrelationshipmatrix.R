@@ -25,7 +25,6 @@ Gall <- function(m){
   nindi <- ncol(Z)
 
 
-  # Sequential computation of the genomic relation ship matrix
   G <- matrix(0, ncol=nindi, nrow=nindi)
 
   storage.mode(Z) = "integer"
