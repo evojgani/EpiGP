@@ -7,14 +7,14 @@
 SNP_var(m, pheno_train, t_hat)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coding Marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coding marker matrix with individuals in the rows and the markers in the columns}
 
-\item{pheno_train}{A subset of one phenotype vector as a training set with names for each phenotypic value}
+\item{pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
-\item{t_hat}{A vector of all estimated pairwise SNP interaction effects}
+\item{t_hat}{A numeric vector of all estimated pairwise SNP interaction effects}
 }
 \value{
-A vector of all pairwise SNP interaction effects variances
+A numeric vector of all pairwise SNP interaction effects variances
 }
 \description{
 Function to calculate all pairwise SNP interaction effects varinacs
