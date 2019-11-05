@@ -25,7 +25,7 @@
 
 SNP_effect <- function(m, pheno_train, G_ERRBLUP){
 
-  m <- m[rownames(m) %in% names(pheno_train), ] # names(y_real)=Genotype
+  m <- m[rownames(m) %in% names(pheno_train), ]
   Z <- t(m)
 
   Gall_train <- G_ERRBLUP[rownames(G_ERRBLUP) %in% names(pheno_train), colnames(G_ERRBLUP) %in% names(pheno_train)]
@@ -40,7 +40,6 @@ SNP_effect <- function(m, pheno_train, G_ERRBLUP){
   nindi <- ncol(Z)
 
 
-  # rrBLUP
   R <- diag(nindi)
   multi <- y - mean(y)
 
@@ -50,7 +49,6 @@ SNP_effect <- function(m, pheno_train, G_ERRBLUP){
 
   Rest_term <- (chol2inv(chol(Gall_train + R *vare / varg)) %*% multi)
 
-  # this is cheating since i am assuming the heritability to be known but will not cost a lot of computation time
 
   Z0 <- (Z==0)*2L
   Z1 <- (Z==1)*2L
