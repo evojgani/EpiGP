@@ -14,7 +14,7 @@
 #' data(wheat)
 #' pheno <- wheat.Y[,1]
 #' pheno_train <- pheno[1:round(4*length(pheno)/5)]
-#' m <- Recodemarker(wheat.X)
+#' m <- Recodemarkers(wheat.X)
 #' rownames(m) <- names(pheno)
 #' G_ERRBLUP <- Gall(m)
 #' t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
@@ -31,6 +31,11 @@
 
 sERRBLUP <- function(pheno_train, G_ERRBLUP, Gtop) {
 
+  if(is.null(names(pheno_train))){
+
+    stop("The individuals are not named")
+
+  } else {
 
   Pheno <- pheno_train[stats::complete.cases(pheno_train)]
   Phenosid <- data.frame(ID = names(pheno_train), observation = Pheno)
@@ -61,7 +66,7 @@ sERRBLUP <- function(pheno_train, G_ERRBLUP, Gtop) {
   return(prediction)
 
 }
-
+}
 
 
 
