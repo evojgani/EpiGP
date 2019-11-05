@@ -10,7 +10,7 @@
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' m <- Recodemarker(wheat.X)
+#' m <- Recodemarkers(wheat.X)
 #'
 #' @export
 #'
