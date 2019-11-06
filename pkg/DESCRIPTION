@@ -2,6 +2,7 @@ Package: EpiGP
 Type: Package
 Title: Epistatic Relationship Matrix Based Genomic Prediction of Phenotypes  
 Version: 0.1.0
+Year: 2019
 Author: person("Elaheh", "Vojgani", role = c("aut", "cre"))
          person("Torsten", "Pook", role = "ctb")
          person("Henner", "Simianer", role = "ctb")
