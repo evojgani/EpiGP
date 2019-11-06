@@ -3,7 +3,7 @@
 #'
 #' @description Function to recode marker matrix to {0, 1, 2} coded marker matrix
 #'
-#' @param M A {-1, 0, 1} or {0, 1} or charachtor coded marker matrix
+#' @param M A {-1, 0, 1} or {0, 1} or character coded marker matrix
 #'
 #' @return A {0, 1, 2} or {0, 2} coded marker matrix
 #'
