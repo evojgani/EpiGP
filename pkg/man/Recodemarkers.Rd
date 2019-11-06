@@ -7,13 +7,13 @@
 Recodemarkers(M)
 }
 \arguments{
-\item{M}{A {-1, 0, 1} or {0, 1} coded marker matrix}
+\item{M}{A {-1, 0, 1} or {0, 1} or charachtor coded marker matrix}
 }
 \value{
 A {0, 1, 2} or {0, 2} coded marker matrix
 }
 \description{
-Function to recode marker data from {-1, 0, 1} to {0, 1, 2} or from {0, 1} to {0, 2} marker coding
+Function to recode marker matrix to {0, 1, 2} coded marker matrix
 }
 \examples{
 library(BGLR)
