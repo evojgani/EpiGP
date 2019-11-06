@@ -1,5 +1,6 @@
 # EpiGP
 Epistatic Relationship Matrix Based Genomic Prediction of Phenotypes
+[![DOI](https://zenodo.org/badge/218787967.svg)](https://zenodo.org/badge/latestdoi/218787967)
 
 EpiGP package does the phenotype prediction based on two statistical models:
 First, Epistatic Random Regression BLUP (ERRBLUP) model as a full epistatic model with all pairwise SNP interactions. For ERRBLUP prediction of phenotypes, ERRBLUP relationship matrix should be initially calculated. 
@@ -15,4 +16,4 @@ https://www.r-project.org/Licenses/GPL-3
 
 
 
-[![DOI](https://zenodo.org/badge/218787967.svg)](https://zenodo.org/badge/latestdoi/218787967)
+
