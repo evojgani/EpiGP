@@ -1,5 +1,5 @@
 
-#' @title Pairwise SNP Interaction Effects and variances Estimattion Function
+#' @title Pairwise SNP Interaction Effects and variances Estimation Function
 #'
 #' @description Function to calculate all pairwise SNP interaction effects
 #'
