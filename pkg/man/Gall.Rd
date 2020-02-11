@@ -4,13 +4,20 @@
 \alias{Gall}
 \title{ERRBLUP Relationship Matrix Function}
 \usage{
-Gall(m)
+Gall(m, cores = 1)
 }
 \arguments{
 \item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
+
+\item{cores}{The number of cores with the default value of 1}
 }
 \value{
-ERRBLUP relationship matrix with row names and column names of all the individuals
+A list of two components G and Pi
+
+\describe{
+  \item{G}{ERRBLUP relationship matrix with row names and column names of all the individuals}
+  \item{Pi}{A vector of all genotype combinations frequencies in the population}
+}
 }
 \description{
 Function to generate relationship matrix based on all pairwise SNP interactions
@@ -18,8 +25,8 @@ Function to generate relationship matrix based on all pairwise SNP interactions
 \examples{
 library(BGLR)
 data(wheat)
-m <- Recodemarkers(wheat.X[1:100,])
-rownames(m) <- names(wheat.Y[1:100,3])
-G_ERRBLUP <- Gall(m)
+m <- Recodemarkers(wheat.X)
+rownames(m) <- names(wheat.Y[,3])
+G_ERRBLUP <- Gall(m, cores=15)
 
 }
