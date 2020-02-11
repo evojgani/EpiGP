@@ -4,20 +4,27 @@
 #' @description Function to generate relationship matrix based on all pairwise SNP interactions
 #'
 #' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param cores The number of cores with the default value of 1
 #'
-#' @return ERRBLUP relationship matrix with row names and column names of all the individuals
+#'@return A list of two components G and Pi
+#'
+#' \describe{
+#'   \item{G}{ERRBLUP relationship matrix with row names and column names of all the individuals}
+#'   \item{Pi}{A vector of all genotype combinations frequencies in the population}
+#' }
+#'
 #'
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' m <- Recodemarkers(wheat.X[1:100,])
-#' rownames(m) <- names(wheat.Y[1:100,3])
-#' G_ERRBLUP <- Gall(m)
+#' m <- Recodemarkers(wheat.X)
+#' rownames(m) <- names(wheat.Y[,3])
+#' G_ERRBLUP <- Gall(m, cores=15)
 #'
 #' @export
 #'
 
-Gall <- function(m){
+Gall <- function(m, cores=1){
 
   if(is.null(row.names(m))){
 
@@ -25,96 +32,224 @@ Gall <- function(m){
 
   } else {
 
-  Z <- t(m)
+     Z <- t(m)
 
-  nsnp <- nrow(Z)
-  nindi <- ncol(Z)
+     nsnp <- nrow(Z)
+     nindi <- ncol(Z)
+
+     G <- matrix(0, ncol=nindi, nrow=nindi)
+
+     storage.mode(Z) = "integer"
+     attr(Z, "dimnames") = NULL
+
+     Z0 <- (Z==0)*2L
+     Z1 <- (Z==1)*2L
+     Z2 <- (Z==2)*2L
 
 
-  G <- matrix(0, ncol=nindi, nrow=nindi)
+     if(sum(Z1==0)== nsnp*nindi){
 
-  storage.mode(Z) = "integer"
-  attr(Z, "dimnames") = NULL
-
-  Z0 <- (Z==0)*2L
-  Z1 <- (Z==1)*2L
-  Z2 <- (Z==2)*2L
+       p_i <- rep(NA, nsnp*(nsnp+1)*2)
+       Z_share = matrix(0L, ncol=nindi, nrow=(nsnp+1)*4)
 
 
-  if(sum(Z1==0)== nsnp*nindi){
+     for(index in 1:ceiling(nsnp/2)){
 
-    p_i <- numeric(nsnp*nsnp*4)
-    include <- integer(nsnp*nsnp*4)+1L
+       print(index)
 
-    Z_share = matrix(0L, ncol=nindi, nrow=nsnp*4)
-    check = prod(include)
+       temp1 = matrix(Z[index,]==0, ncol=nindi, nrow=nsnp-index+1, byrow=TRUE)
+       temp2 = Z0[index:nsnp,,drop=FALSE]
+       temp3 = Z2[index:nsnp,,drop=FALSE]
 
-    for(index in 1:nsnp){
-      if(index %% 1000 == 0)print(index)
+       Z_share[1:(nsnp-index+1),] <- temp1 * temp2
+       Z_share[1:(nsnp-index+1) + (nsnp+1),] <- (!temp1) * temp2
+       Z_share[1:(nsnp-index+1) + 2*(nsnp+1),] <- temp1 * temp3
+       Z_share[1:(nsnp-index+1) + 3*(nsnp+1),] <- (!temp1) * temp3
 
-      Z_share[1:nsnp,] <- matrix(Z[index,]==0, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z0
-      Z_share[1:nsnp+nsnp,] <- matrix(Z[index,]==2, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z0
-      Z_share[1:nsnp+2*nsnp,] <- matrix(Z[index,]==0, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z2
-      Z_share[1:nsnp+3*nsnp,] <- matrix(Z[index,]==2, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z2
-      if(check!=1){
-        Z_share <- matrix(include[((index-1)*nsnp*4+1):((index)*nsnp*4)], ncol=nindi, nrow=nsnp*4, byrow=FALSE) * Z_share
+       if(index <= (nsnp/2)){
+         temp1 = matrix(Z[(nsnp-index+1),]==0, ncol=nindi, nrow=index, byrow=TRUE)
+         temp2 = Z0[(nsnp-index+1):nsnp,,drop=FALSE]
+         temp3 = Z2[(nsnp-index+1):nsnp,,drop=FALSE]
+       } else{
+         temp1 = matrix(0L, ncol=nindi, nrow=index, byrow=TRUE)
+       }
+
+       Z_share[(nsnp-index+2):(nsnp+1),] <- temp1 * temp2
+       Z_share[(nsnp-index+2):(nsnp+1) + (nsnp+1),] <- (!temp1) * temp2
+       Z_share[(nsnp-index+2):(nsnp+1) + 2*(nsnp+1),] <- temp1 * temp3
+       Z_share[(nsnp-index+2):(nsnp+1) + 3*(nsnp+1),] <- (!temp1) * temp3
+
+
+       if (requireNamespace("miraculix", quietly = TRUE)) {
+
+         RandomFieldsUtils::RFoptions(cores=cores)
+
+         Z_miraculix <- miraculix::genomicmatrix(Z_share)
+
+         pi1 <- miraculix::allele_freq(Z_miraculix)
+
+
+         p_i[1:(4*(nsnp-index+1)) + (index-1)*4*nsnp - 2 * (index-1) * (index-2)] <-
+           pi1[c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1))]
+
+         if(index<= (nsnp/2)){
+           index2 = nsnp - index + 1
+           p_i[1:(4*(nsnp-index2+1)) + (index2-1)*4*nsnp - 2 * (index2-1) * (index2-2)] <-
+             pi1[-c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1))]
+         }
+
+         if(index > (nsnp/2)){
+           Z_share <- Z_share[-(c((nsnp-index+2):(nsnp+1),
+                                  (nsnp-index+2):(nsnp+1) + 1*(nsnp+1),
+                                  (nsnp-index+2):(nsnp+1) + 2*(nsnp+1),
+                                  (nsnp-index+2):(nsnp+1) + 3*(nsnp+1))),]
+           Z_miraculix <- miraculix::genomicmatrix(Z_share)
+         }
+
+         G <- G +  miraculix::relationshipMatrix(Z_miraculix, centered=FALSE, normalized=FALSE)
+
+       } else{
+
+         pi1 <- rowSums(Z_share)/ncol(Z_share)/2
+
+         p_i[1:(4*(nsnp-index+1)) + (index-1)*4*nsnp - 2 * (index-1) * (index-2)] <-
+           pi1[c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1))]
+
+         if(index<= (nsnp/2)){
+           index2 = nsnp - index + 1
+           p_i[1:(4*(nsnp-index2+1)) + (index2-1)*4*nsnp - 2 * (index2-1) * (index2-2)] <-
+             pi1[-c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1))]
+         }
+
+          if(index > (nsnp/2)){
+            Z_share <- Z_share[-(c((nsnp-index+2):(nsnp+1),
+                                   (nsnp-index+2):(nsnp+1) + 1*(nsnp+1),
+                                   (nsnp-index+2):(nsnp+1) + 2*(nsnp+1),
+                                   (nsnp-index+2):(nsnp+1) + 3*(nsnp+1))),]
+          }
+
+          G <- G + crossprod(Z_share)
+       }
+      }
+    } else {
+
+    p_i <- rep(NA, nsnp*(nsnp+1)*9/2)
+    Z_share = matrix(0L, ncol=nindi, nrow=(nsnp+1)*9)
+
+    for(index in 1:ceiling(nsnp/2)){
+
+      print(index)
+
+      temp0 = matrix(Z[index,]==0, ncol=nindi, nrow=nsnp-index+1, byrow=TRUE)
+      temp1 = matrix(Z[index,]==1, ncol=nindi, nrow=nsnp-index+1, byrow=TRUE)
+      temp2 = Z0[index:nsnp,,drop=FALSE]
+      temp3 = Z2[index:nsnp,,drop=FALSE]
+      temp4 = Z1[index:nsnp,,drop=FALSE]
+
+      Z_share[1:(nsnp-index+1),] <- temp0 * temp2
+      Z_share[1:(nsnp-index+1) + (nsnp+1),] <- ((!temp0)&(!temp1)) * temp2
+      Z_share[1:(nsnp-index+1) + 2*(nsnp+1),] <- temp0 * temp3
+      Z_share[1:(nsnp-index+1) + 3*(nsnp+1),] <- ((!temp0)&(!temp1)) * temp3
+      Z_share[1:(nsnp-index+1) + 4*(nsnp+1),] <- temp1 * temp3
+      Z_share[1:(nsnp-index+1) + 5*(nsnp+1),] <- ((!temp0)&(!temp1)) * temp4
+      Z_share[1:(nsnp-index+1) + 6*(nsnp+1),] <- temp1 * temp2
+      Z_share[1:(nsnp-index+1) + 7*(nsnp+1),] <- temp0 * temp4
+      Z_share[1:(nsnp-index+1) + 8*(nsnp+1),] <- temp1 * temp4
+
+
+      if(index <= (nsnp/2)){
+        temp0 = matrix(Z[(nsnp-index+1),]==0, ncol=nindi, nrow=index, byrow=TRUE)
+        temp1 = matrix(Z[(nsnp-index+1),]==1, ncol=nindi, nrow=index, byrow=TRUE)
+        temp2 = Z0[(nsnp-index+1):nsnp,,drop=FALSE]
+        temp3 = Z2[(nsnp-index+1):nsnp,,drop=FALSE]
+        temp4 = Z1[(nsnp-index+1):nsnp,,drop=FALSE]
+
+      } else{
+        temp0 = matrix(0L, ncol=nindi, nrow=index, byrow=TRUE)
+        temp1 = matrix(0L, ncol=nindi, nrow=index, byrow=TRUE)
       }
 
-      p_i[((index-1)*nsnp*4+1):((index)*nsnp*4)] <- rowSums(Z_share)/ncol(Z_share)/2
+      Z_share[(nsnp-index+2):(nsnp+1),] <- temp0 * temp2
+      Z_share[(nsnp-index+2):(nsnp+1) + (nsnp+1),] <- ((!temp0)&(!temp1)) * temp2
+      Z_share[(nsnp-index+2):(nsnp+1) + 2*(nsnp+1),] <- temp0 * temp3
+      Z_share[(nsnp-index+2):(nsnp+1) + 3*(nsnp+1),] <- ((!temp0)&(!temp1)) * temp3
+      Z_share[(nsnp-index+2):(nsnp+1) + 4*(nsnp+1),] <- temp1 * temp3
+      Z_share[(nsnp-index+2):(nsnp+1) + 5*(nsnp+1),] <- ((!temp0)&(!temp1)) * temp4
+      Z_share[(nsnp-index+2):(nsnp+1) + 6*(nsnp+1),] <- temp1 * temp2
+      Z_share[(nsnp-index+2):(nsnp+1) + 7*(nsnp+1),] <- temp0 * temp4
+      Z_share[(nsnp-index+2):(nsnp+1) + 8*(nsnp+1),] <- temp1 * temp4
+
 
       if (requireNamespace("miraculix", quietly = TRUE)) {
 
+        RandomFieldsUtils::RFoptions(cores=cores)
+
         Z_miraculix <- miraculix::genomicmatrix(Z_share)
-        G <- G +  miraculix::relationshipMatrix(Z_miraculix, centered=TRUE, normalized=FALSE)
+
+        pi1 <- miraculix::allele_freq(Z_miraculix)
+
+
+        p_i[1:(9*(nsnp-index+1)) + (index-1)*9*nsnp - 2 * (index-1) * (index-2)] <-
+          pi1[c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1),
+                1:(nsnp-index+1) + 4*(nsnp+1), 1:(nsnp-index+1) + 5*(nsnp+1), 1:(nsnp-index+1) + 6*(nsnp+1),
+                1:(nsnp-index+1) + 7*(nsnp+1), 1:(nsnp-index+1) + 8*(nsnp+1))]
+
+        if(index<= (nsnp/2)){
+          index2 = nsnp - index + 1
+          p_i[1:(9*(nsnp-index2+1)) + (index2-1)*9*nsnp - 2 * (index2-1) * (index2-2)] <-
+            pi1[-c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1),
+                   1:(nsnp-index+1) + 4*(nsnp+1), 1:(nsnp-index+1) + 5*(nsnp+1), 1:(nsnp-index+1) + 6*(nsnp+1),
+                   1:(nsnp-index+1) + 7*(nsnp+1), 1:(nsnp-index+1) + 8*(nsnp+1))]
+        }
+
+        if(index > (nsnp/2)){
+          Z_share <- Z_share[-(c((nsnp-index+2):(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 1*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 2*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 3*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 4*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 5*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 6*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 7*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 8*(nsnp+1))),]
+          Z_miraculix <- miraculix::genomicmatrix(Z_share)
+        }
+
+        G <- G +  miraculix::relationshipMatrix(Z_miraculix, centered=FALSE, normalized=FALSE)
 
       } else{
 
-        A <- Z_share - 2*p_i[((index-1)*nsnp*4+1):((index)*nsnp*4)]
-        G <- G + crossprod(A)
+        pi1 <- rowSums(Z_share)/ncol(Z_share)/2
+
+        p_i[1:(9*(nsnp-index+1)) + (index-1)*9*nsnp - 2 * (index-1) * (index-2)] <-
+          pi1[c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1),
+                1:(nsnp-index+1) + 4*(nsnp+1), 1:(nsnp-index+1) + 5*(nsnp+1), 1:(nsnp-index+1) + 6*(nsnp+1),
+                1:(nsnp-index+1) + 7*(nsnp+1), 1:(nsnp-index+1) + 8*(nsnp+1))]
+
+        if(index<= (nsnp/2)){
+          index2 = nsnp - index + 1
+          p_i[1:(9*(nsnp-index2+1)) + (index2-1)*9*nsnp - 2 * (index2-1) * (index2-2)] <-
+            pi1[-c(1:(nsnp-index+1), 1:(nsnp-index+1)+(nsnp+1), 1:(nsnp-index+1)+2*(nsnp+1), 1:(nsnp-index+1) + 3*(nsnp+1),
+                   1:(nsnp-index+1) + 4*(nsnp+1), 1:(nsnp-index+1) + 5*(nsnp+1), 1:(nsnp-index+1) + 6*(nsnp+1),
+                   1:(nsnp-index+1) + 7*(nsnp+1), 1:(nsnp-index+1) + 8*(nsnp+1))]
+        }
+
+        if(index > (nsnp/2)){
+          Z_share <- Z_share[-(c((nsnp-index+2):(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 1*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 2*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 3*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 4*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 5*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 6*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 7*(nsnp+1),
+                                 (nsnp-index+2):(nsnp+1) + 8*(nsnp+1))),]
+        }
+
+        G <- G + crossprod(Z_share)
       }
+     }
     }
-
-  } else {
-
-    p_i <- numeric(nsnp*nsnp*9)
-    include <- integer(nsnp*nsnp*9)+1L
-
-    Z_share = matrix(0L, ncol=nindi, nrow=nsnp*9)
-    check = prod(include)
-
-    for(index in 1:nsnp){
-      if(index %% 1000 == 0)print(index)
-
-
-      Z_share[1:nsnp,] <- matrix(Z[index,]==0, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z0
-      Z_share[1:nsnp+nsnp,] <- matrix(Z[index,]==2, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z0
-      Z_share[1:nsnp+2*nsnp,] <- matrix(Z[index,]==0, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z2
-      Z_share[1:nsnp+3*nsnp,] <- matrix(Z[index,]==2, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z2
-      Z_share[1:nsnp+4*nsnp,] <- matrix(Z[index,]==0, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z1
-      Z_share[1:nsnp+5*nsnp,] <- matrix(Z[index,]==1, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z0
-      Z_share[1:nsnp+6*nsnp,] <- matrix(Z[index,]==1, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z1
-      Z_share[1:nsnp+7*nsnp,] <- matrix(Z[index,]==1, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z2
-      Z_share[1:nsnp+8*nsnp,] <- matrix(Z[index,]==2, ncol=nindi, nrow=nsnp, byrow=TRUE) * Z1
-
-      if(check!=1){
-        Z_share <- matrix(include[((index-1)*nsnp*9+1):((index)*nsnp*9)], ncol=nindi, nrow=nsnp*9, byrow=FALSE) * Z_share
-      }
-
-      p_i[((index-1)*nsnp*9+1):((index)*nsnp*9)] <- rowSums(Z_share)/ncol(Z_share)/2
-
-      if (requireNamespace("miraculix", quietly = TRUE)) {
-
-        Z_miraculix <- miraculix::genomicmatrix(Z_share)
-        G <- G +  miraculix::relationshipMatrix(Z_miraculix, centered=TRUE, normalized=FALSE)
-
-      } else{
-
-        A <- Z_share - 2*p_i[((index-1)*nsnp*4+1):((index)*nsnp*4)]
-        G <- G + crossprod(A)
-
-      }
-    }
-  }
 
 
   G_all <- G / (2 * sum(p_i*(1-p_i)))
@@ -122,9 +257,10 @@ Gall <- function(m){
   rownames(G_all) <- rownames(m)
   colnames(G_all) <- rownames(m)
 
-  return(G_all)
-}
+  out <- list(G = G_all, Pi = p_i)
 
+  return(out)
+ }
 }
 
 
