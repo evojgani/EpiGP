@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllSNPeffectcalculation.R
 \name{SNP_effect_var}
 \alias{SNP_effect_var}
-\title{Pairwise SNP Interaction Effects and variances Estimattion Function}
+\title{Pairwise SNP Interaction Effects and variances Estimation Function}
 \usage{
 SNP_effect_var(m, Pheno_train, G_ERRBLUP, Pi, Trainset, cores = 1)
 }
