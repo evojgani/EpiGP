@@ -32,10 +32,20 @@ Recodemarkers <- function(M){
 
       if(sum(m==2)>1){
 
+        second <- (M[m==1][1]) != (M[m==1])
+        code <- c(print(c((M[m==1][1]),("is recoded to 0"))),
+                  print(c((M[m==1][which(second==TRUE)[1]] ),("is recoded to 1"))),
+                  print(c((M[m==2][1]),(("is recoded to 2")))))
+
         a <- M[m==1][1]
         m[M==a] <- 0
 
+
       } else{
+
+        second <- (M[m==1][1]) != (M[m==1])
+        code <- c(print(c((M[m==1][1]),("is recoded to 0"))),
+                  print(c((M[m==1][which(second==TRUE)[1]] ),("is recoded to 2"))))
 
         a <- M[m==1][1]
         m[M==a] <- 0
@@ -45,11 +55,18 @@ Recodemarkers <- function(M){
 
       if(sum(c(-1,0,1) %in% M)==3){
 
+        code <- c(print(c((M[M==1][1]),("is recoded to 2"))),
+                  print(c((M[M==0][1]),("is recoded to 1"))),
+                  print(c((M[M==-1][1]),(("is recoded to 0")))))
+
         m[M==1] <- 2
         m[M==0] <- 1
         m[M==-1] <- 0
 
       } else{
+
+        code <- c(print(c((M[M==1][1]),("is recoded to 2"))),
+                  print(c((M[M==0][1]),("is not recoded"))))
 
         m[M==1] <- 2
         m[M==0] <- 0
