@@ -5,16 +5,16 @@
 \alias{Gtop}
 \title{sERRBLUP Relationship Matrix Function}
 \usage{
-Gtop(m, pheno, estimations, k)
+Gtop(m, Estimations, k, cores = 1)
 }
 \arguments{
 \item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
 
-\item{pheno}{A numeric phenotype vector with names for each phenotypic value}
-
-\item{estimations}{A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
+\item{Estimations}{A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
 
 \item{k}{Desired proportion of SNP interactions to be included in the model}
+
+\item{cores}{The number of cores with the default value of 1}
 }
 \value{
 sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals
@@ -25,15 +25,37 @@ Function to generate relationship matrix based on the desired proportion of pair
 \examples{
 library(BGLR)
 data(wheat)
-pheno <- wheat.Y[1:100,1]
-pheno_train <- pheno[1:round(4*length(pheno)/5)]
-m <- Recodemarkers(wheat.X[1:100,])
+geno <- wheat.X
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
+y <- y1+y2+y3+y4
+pheno <- scale(y)
+names(pheno) <- names(wheat.Y[,1])
+N <- length(pheno)
+n <- 60
+test <- sample(1:N,n)
+training <- (1:N)[-test]
+pheno_train <- pheno[training]
+m <- Recodemarkers(wheat.X)
 rownames(m) <- names(pheno)
-G_ERRBLUP <- Gall(m)
-t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
-sigma_hat <- SNP_var(m, pheno_train, t_hat)
+G_ERRBLUP <- Gall(m, cores=15)
+G <- G_ERRBLUP$G
+pi <- G_ERRBLUP$Pi
+Estimation <- SNP_effect_var(m, pheno_train, G, pi, training, cores=15)
+t_hat <- Estimation$effect
+sigma_hat <- Estimation$effectvar
 k <- 10
-Gtop_effect <- Gtop(m, pheno , t_hat, k)
-Gtop_var <- Gtop(m, pheno , sigma_hat, k)
+Gtop_effect <- Gtop(m, t_hat, k, cores=15)
+Gtop_var <- Gtop(m, sigma_hat, k, cores=15)
 
 }
