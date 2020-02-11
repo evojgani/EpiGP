@@ -4,14 +4,14 @@
 \alias{sERRBLUP}
 \title{sERRBLUP Phenotype Prediction Function}
 \usage{
-sERRBLUP(pheno_train, G_ERRBLUP, Gtop)
+sERRBLUP(Pheno_train, Gtop, Trainset)
 }
 \arguments{
-\item{pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
-
-\item{G_ERRBLUP}{ERRBLUP relationship matrix with row names and column names of all the individuals}
+\item{Pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
 \item{Gtop}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals}
+
+\item{Trainset}{A vector of individuals which are in the training set}
 }
 \value{
 A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on sERRBLUP method
@@ -22,17 +22,39 @@ Function to do phenotype prediction based on the desired proportion of pairwise 
 \examples{
 library(BGLR)
 data(wheat)
-pheno <- wheat.Y[,1]
-pheno_train <- pheno[1:round(4*length(pheno)/5)]
+geno <- wheat.X
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
+y <- y1+y2+y3+y4
+pheno <- scale(y)
+names(pheno) <- names(wheat.Y[,1])
+N <- length(pheno)
+n <- 60
+test <- sample(1:N,n)
+training <- (1:N)[-test]
+pheno_train <- pheno[training]
 m <- Recodemarkers(wheat.X)
 rownames(m) <- names(pheno)
-G_ERRBLUP <- Gall(m)
-t_hat <- SNP_effect(m, pheno_train, G_ERRBLUP)
-sigma_hat <- SNP_var(m, pheno_train, t_hat)
+G_ERRBLUP <- Gall(m, cores=15)
+G <- G_ERRBLUP$G
+pi <- G_ERRBLUP$Pi
+Estimation <- SNP_effect_var(m, pheno_train, G, pi, training, cores=15)
+t_hat <- Estimation$effect
+sigma_hat <- Estimation$effectvar
 k <- 10
-Gtop_effect <- Gtop(m, pheno, t_hat, k)
-Gtop_var <- Gtop(m, pheno, sigma_hat, k)
-sERRBLUP_effect <- sERRBLUP(pheno_train, G_ERRBLUP, Gtop_effect)
-sERRBLUP_var <- sERRBLUP(pheno_train, G_ERRBLUP, Gtop_var)
+Gtop_effect <- Gtop(m, t_hat, k, cores=15)
+Gtop_var <- Gtop(m, sigma_hat, k, cores=15)
+sERRBLUP_effect <- sERRBLUP(pheno_train, Gtop_effect, training)
+sERRBLUP_var <- sERRBLUP(pheno_train, Gtop_var, training)
 
 }
