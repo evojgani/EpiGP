@@ -4,12 +4,14 @@
 \alias{ERRBLUP}
 \title{ERRBLUP Phenotype Prediction Function}
 \usage{
-ERRBLUP(pheno_train, G_ERRBLUP)
+ERRBLUP(Pheno_train, G_ERRBLUP, Trainset)
 }
 \arguments{
-\item{pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
+\item{Pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
 \item{G_ERRBLUP}{ERRBLUP relationship matrix with row names and column names of all the individuals}
+
+\item{Trainset}{A vector of individuals which are in the training set}
 }
 \value{
 A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
@@ -20,11 +22,31 @@ Function to do phenotype prediction based on all pairwise SNP interactions
 \examples{
 library(BGLR)
 data(wheat)
-pheno <- wheat.Y[,1]
+geno <- wheat.X
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
+t1 <- sample(1:ncol(geno), 20)
+t2 <- sample(1:ncol(geno), 20)
+y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
+y <- y1+y2+y3+y4
+pheno <- scale(y)
+names(pheno) <- names(wheat.Y[,1])
 m <- Recodemarkers(wheat.X)
 rownames(m) <- names(pheno)
-G_ERRBLUP <- Gall(m)
-pheno_train <- pheno[1:round(4*length(pheno)/5)]
-Pred_ERRBLUP <- ERRBLUP(pheno_train, G_ERRBLUP)
+G_ERRBLUP <- Gall(m, cores=15)
+G <- G_ERRBLUP$G
+N <- length(pheno)
+n <- 60
+test <- sample(1:N,n)
+training <- (1:N)[-test]
+pheno_train <- pheno[training]
+Pred_ERRBLUP <- ERRBLUP(pheno_train, G, training)
 
 }
