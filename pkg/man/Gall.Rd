@@ -28,5 +28,7 @@ data(wheat)
 m <- Recodemarkers(wheat.X)
 rownames(m) <- names(wheat.Y[,3])
 G_ERRBLUP <- Gall(m, cores=15)
+G <- G_ERRBLUP$G
+pi <- G_ERRBLUP$Pi
 
 }
