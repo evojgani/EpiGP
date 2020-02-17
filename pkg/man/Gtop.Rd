@@ -8,7 +8,7 @@
 Gtop(m, Estimations, k, cores = 1)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns}
 
 \item{Estimations}{A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
 
