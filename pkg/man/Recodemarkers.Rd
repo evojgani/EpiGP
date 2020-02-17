@@ -10,10 +10,10 @@ Recodemarkers(M)
 \item{M}{A {-1, 0, 1} or {0, 1} or character coded marker matrix}
 }
 \value{
-A {0, 1, 2} or {0, 2} coded marker matrix
+A {0, 1, 2} or {0, 2} coded marker matrix. The function reports how the recoding was implemented in the input marker matrix.
 }
 \description{
-Function to recode marker matrix to {0, 1, 2} coded marker matrix
+Function to recode marker matrix to {0, 2} or {0, 1, 2} coded marker matrix
 }
 \examples{
 library(BGLR)
