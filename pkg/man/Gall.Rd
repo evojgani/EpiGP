@@ -7,7 +7,7 @@
 Gall(m, cores = 1)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns}
 
 \item{cores}{The number of cores with the default value of 1}
 }
