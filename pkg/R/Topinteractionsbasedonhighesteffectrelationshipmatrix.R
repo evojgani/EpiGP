@@ -3,7 +3,7 @@
 #'
 #' @description Function to generate relationship matrix based on the desired proportion of pairwise SNP interactions
 #'
-#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param m {0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns
 #' @param Estimations A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances
 #' @param k Desired proportion of SNP interactions to be included in the model
 #' @param cores The number of cores with the default value of 1
