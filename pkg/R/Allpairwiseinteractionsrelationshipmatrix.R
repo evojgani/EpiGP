@@ -3,7 +3,7 @@
 #'
 #' @description Function to generate relationship matrix based on all pairwise SNP interactions
 #'
-#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param m {0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns
 #' @param cores The number of cores with the default value of 1
 #'
 #'@return A list of two components G and Pi
