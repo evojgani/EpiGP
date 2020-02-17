@@ -3,7 +3,7 @@
 #'
 #' @description Function to calculate all pairwise SNP interaction effects
 #'
-#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param m {0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns
 #' @param Pheno_train A subset of one numeric phenotype vector as a training set with names for each phenotypic value
 #' @param G_ERRBLUP EERRBLUP relationship matrix with row names and column names of all individuals
 #' @param Pi A vector of all genotype combinations frequencies in the population
