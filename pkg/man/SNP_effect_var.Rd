@@ -7,7 +7,7 @@
 SNP_effect_var(m, Pheno_train, G_ERRBLUP, Pi, Trainset, cores = 1)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns}
 
 \item{Pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
 
