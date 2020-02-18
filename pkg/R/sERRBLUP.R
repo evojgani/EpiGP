@@ -15,11 +15,11 @@
 #'   \item{Recodedmarkers}{A {0, 1, 2} or {0, 2} coded marker matrix}
 #'   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and A vector of all genotype combinations frequencies in the population}
 #'   \item{Effect.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions based on effect size estimations}
-#'   \item{var.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions baed on effect size variznce estimations}
+#'   \item{Var.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions baed on effect size variznce estimations}
 #'   \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effects}
-#'   \item{Effect.variance}{A numeric vector of all estimated pairwise SNP interaction effects variances}
+#'   \item{Effect.Variance}{A numeric vector of all estimated pairwise SNP interaction effects variances}
 #'   \item{Effect.Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes}
-#'   \item{Var.prediction}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes variances}
+#'   \item{Var.Prediction}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes variances}
 #' }
 #'
 #' @examples
@@ -28,7 +28,7 @@
 #' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' M <- wheat.X[,1:10]
+#' M <- wheat.X
 #' Phenotype[test] <- NA
 #' sERRBLUP <- sERRBLUP(M, Phenotype, 10, cores=15)
 #'
@@ -527,14 +527,14 @@ sERRBLUP <- function(M, Pheno, k, cores=1){
     u_hat <- u_hat  * 1/ 2 / sum(P*(1-P))
     sigma_hat <- (u_hat^2)*2*P*(1-P)
 
-    out <- list(effect = u_hat, effectvar = sigma_hat)
+    out <- list(Effect = u_hat, Effect.Var = sigma_hat)
     return(out)
 
 
   }
   estimations <- SNP_effect_var(m, Pheno, G1, P, cores)
-  t_hat <- estimations$effect
-  sigma_hat <- estimations$effectvar
+  t_hat <- estimations$Effect
+  sigma_hat <- estimations$Effect.Var
 
 
   Gtop <- function(m, Estimations, k, cores=1){
@@ -880,9 +880,9 @@ sERRBLUP <- function(M, Pheno, k, cores=1){
   prediction_var <- sERRBLUP(Pheno , G3)
 
   out <- list(Recodedmarkers = m, Relationshipmatrix = G_ERRBLUP,
-              Effect.Relationshipmatrix = G2, var.Relationshipmatrix = G3,
-              Effect = t_hat, Effect.variance = sigma_hat,
-              Effect.Predictions = prediction_effect, Var.prediction = prediction_var)
+              Effect.Relationshipmatrix = G2, Var.Relationshipmatrix = G3,
+              Effect = t_hat, Effect.Variance = sigma_hat,
+              Effect.Predictions = prediction_effect, Var.Prediction = prediction_var)
 
   return(out)
 
