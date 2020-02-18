@@ -18,7 +18,7 @@ A list of three components:
 
 \describe{
   \item{Recodedmarkers}{A {0, 1, 2} or {0, 2} coded marker matrix}
-  \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and A vector of all genotype combinations frequencies in the population}
+  \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population(P)}
   \item{Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method}
 }
 }
@@ -28,7 +28,7 @@ Function to do phenotype prediction based on all pairwise SNP interactions
 \examples{
 library(BGLR)
 data(wheat)
-M <- wheat.X[,1:10]
+M <- wheat.X
 N <- length(Phenotype)
 n <- 60
 test <- sample(1:N,n)
