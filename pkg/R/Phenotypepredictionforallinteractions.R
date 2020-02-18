@@ -1,64 +1,41 @@
 
-#' @title ERRBLUP Phenotype Prediction Function
+#' @title ERRBLUP Phenotype Prediction Function relying on the out put of ERRBLUP Relationship Matrix Function
 #'
 #' @description Function to do phenotype prediction based on all pairwise SNP interactions
 #'
-#' @param Pheno_train A subset of one numeric phenotype vector as a training set with names for each phenotypic value
-#' @param G_ERRBLUP ERRBLUP relationship matrix with row names and column names of all the individuals
-#' @param Trainset A vector of individuals which are in the training set
+#' @param Pheno A numeric vector of phenotypes
+#' @param G_ERRBLUP ERRBLUP relationship matrix
 #'
 #' @return A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method
 #'
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' geno <- wheat.X
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
-#' y <- y1+y2+y3+y4
-#' pheno <- scale(y)
-#' names(pheno) <- names(wheat.Y[,1])
-#' m <- Recodemarkers(wheat.X)
-#' rownames(m) <- names(pheno)
+#' m <- Recodemarkers(wheat.X[,1:10])
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
-#' N <- length(pheno)
+#' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' training <- (1:N)[-test]
-#' pheno_train <- pheno[training]
-#' Pred_ERRBLUP <- ERRBLUP(pheno_train, G, training)
+#' Phenotype[test] <- NA
+#' Pred_ERRBLUP <- ERRBLUP_Stepwise(Phenotype, G)
 #'
 #' @export
 #'
 
 
-ERRBLUP <- function(Pheno_train , G_ERRBLUP, Trainset) {
+ERRBLUP_Stepwise <- function(Pheno , G_ERRBLUP) {
 
-  if(is.null(names(Pheno_train))){
 
-    stop("The individuals are not named")
-
-  } else {
-
-    Pheno <- Pheno_train[stats::complete.cases(Pheno_train)]
-    Phenosid <- data.frame(ID = names(Pheno), observation = Pheno)
+    Y <- data.frame(ID = 1:length(Pheno), observation = Pheno)
+    phenosid <- Y[stats::complete.cases(Y[,2]),]
+    Trainset <- phenosid[,1]
 
     n <- dim(G_ERRBLUP)[1]
     Zz <- diag(n)
     Xx <- matrix(1,n,ncol=1)
 
-    y <- Phenosid[,2]
+    y <- phenosid[,2]
     ntrain <- length(y)
     X <- Xx[Trainset]
     Z <- Zz[Trainset,]
@@ -87,7 +64,7 @@ ERRBLUP <- function(Pheno_train , G_ERRBLUP, Trainset) {
 
     return(prediction)
 
-  }
+
 
 }
 
