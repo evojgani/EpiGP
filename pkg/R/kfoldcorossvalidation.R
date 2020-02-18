@@ -1,19 +1,19 @@
 
-#' @title Cross validation for sERRBLUP
+#' @title sERRBLUP Predictive Ability Test
 #'
-#' @description K fold cross validation Function with n replicatets to do phenotype prediction based sERRBLUP for finding the optimum proportion of interactions leading to highest predictive ability
+#' @description Function to provide predictive abilities obtained from sERRBLUP for series of diffetent pairwise SNP interaction proportions to find the optimum proportion of interactions leading to the highest predictive ability
 #'
 #' @param M A {-1, 0, 1} or {0, 1} or character coded marker matrix
 #' @param Pheno A numeric vector of phenotypes
 #' @param k Desired proportion set of SNP interactions to be included in the model wich is proposed to be (90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)
 #' @param cores The number of cores with the default value of 1
 #'
-#'@return A data frame of 4 components:
+#'@return A data frame of 3 components:
 #'
 #' \describe{
 #'   \item{Desired.Proportion}{The proportion of SNP interactions which maintained in sERRBLUP model}
-#'   \item{PA.Effcet}{sERRBLUP predicitve ability based on effect sizes selection}
-#'   \item{PA.Var}{sERRBLUP predicitve ability based on effect variances selection}
+#'   \item{PA.Effcet}{sERRBLUP predictive ability based on effect sizes selection}
+#'   \item{PA.Var}{sERRBLUP predictive ability based on effect variances selection}
 #' }
 #'
 #'
@@ -24,17 +24,17 @@
 #' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' M <- wheat.X[,1:10]
+#' M <- wheat.X
 #' Phenotype[test] <- NA
 #' K=c(90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)
-#' cross_val <- sERRBLUP_proportions_test(M, Phenotype, k=K, cores=15)
+#' cross_val <- sERRBLUP_Proportions_Test(M, Phenotype, k=K, cores=15)
 #'
 #' @export
 #'
 
 
 
-sERRBLUP_proportions_test <- function(M, Pheno, k, cores=1){
+sERRBLUP_Proportions_Test <- function(M, Pheno, k, cores=1){
 
 
   Recodemarkers <- function(M){
@@ -542,14 +542,14 @@ sERRBLUP_proportions_test <- function(M, Pheno, k, cores=1){
     u_hat <- u_hat  * 1/ 2 / sum(P*(1-P))
     sigma_hat <- (u_hat^2)*2*P*(1-P)
 
-    out <- list(effect = u_hat, effectvar = sigma_hat)
+    out <- list(Effect = u_hat, Effect.Var = sigma_hat)
     return(out)
 
 
       }
       estimations <- SNP_effect_var(m, Y, G1, P, cores)
-      t_hat <- estimations$effect
-      sigma_hat <- estimations$effectvar
+      t_hat <- estimations$Effect
+      sigma_hat <- estimations$Effect.Var
 
 
       kk <- length(k)
