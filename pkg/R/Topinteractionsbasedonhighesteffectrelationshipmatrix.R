@@ -8,38 +8,20 @@
 #' @param k Desired proportion of SNP interactions to be included in the model
 #' @param cores The number of cores with the default value of 1
 #'
-#' @return sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions with row names and column names of all the individuals
+#' @return sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions
 #'
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' geno <- wheat.X
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
-#' y <- y1+y2+y3+y4
-#' pheno <- scale(y)
-#' names(pheno) <- names(wheat.Y[,1])
-#' N <- length(pheno)
+#' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' training <- (1:N)[-test]
-#' pheno_train <- pheno[training]
-#' m <- Recodemarkers(wheat.X)
-#' rownames(m) <- names(pheno)
+#' Phenotype[test] <- NA
+#' m <- Recodemarkers(wheat.X[,1:10])
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
-#' pi <- G_ERRBLUP$Pi
-#' Estimation <- SNP_effect_var(m, pheno_train, G, pi, training, cores=15)
+#' P <- G_ERRBLUP$P
+#' Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
 #' t_hat <- Estimation$effect
 #' sigma_hat <- Estimation$effectvar
 #' k <- 10
@@ -52,11 +34,6 @@
 
 Gtop <- function(m, Estimations, k, cores=1){
 
-  if(is.null(row.names(m))){
-
-    stop("The individuals are not named")
-
-  } else {
 
     Z <- t(m)
 
@@ -347,12 +324,7 @@ Gtop <- function(m, Estimations, k, cores=1){
 
     G_k <- G / (2 * sum(p_i*(1-p_i)))
 
-    rownames(G_k) <- rownames(m)
-    colnames(G_k) <- rownames(m)
-
     return(G_k)
-
-  }
 
 }
 
