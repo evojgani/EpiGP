@@ -5,7 +5,7 @@
 #'
 #' @param M A {-1, 0, 1} or {0, 1} or character coded marker matrix
 #'
-#' @return A {0, 1, 2} or {0, 2} coded marker matrix. The function reports how the recoding was implemented in the input marker matrix.
+#' @return A {0, 1, 2} or {0, 2} coded marker matrix. The function reports how the recoding was implemented in the input marker matrix
 #'
 #' @examples
 #' library(BGLR)
