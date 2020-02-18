@@ -12,8 +12,8 @@
 #'@return A list of two components effect and effectvar
 #'
 #' \describe{
-#'   \item{effect}{A numeric vector of all estimated pairwise SNP interaction effects}
-#'   \item{effectvar}{A numeric vector of all estimated pairwise SNP interaction effects variances}
+#'   \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effects}
+#'   \item{Effect.Var}{A numeric vector of all estimated pairwise SNP interaction effects variances}
 #' }
 #'
 #'
@@ -24,13 +24,13 @@
 #' n <- 60
 #' test <- sample(1:N,n)
 #' Phenotype[test] <- NA
-#' m <- Recodemarkers(wheat.X[,1:10])
+#' m <- Recodemarkers(wheat.X)
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
 #' P <- G_ERRBLUP$P
 #' Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
-#' t_hat <- Estimation$effect
-#' sigma_hat <- Estimation$effectvar
+#' t_hat <- Estimation$Effect
+#' sigma_hat <- Estimation$Effect.Var
 #'
 #' @export
 #'
@@ -228,7 +228,7 @@ SNP_effect_var <- function(m, Pheno, G_ERRBLUP, P, cores=1){
   u_hat <- u_hat  * 1/ 2 / sum(P*(1-P))
   sigma_hat <- (u_hat^2)*2*P*(1-P)
 
-  out <- list(effect = u_hat, effectvar = sigma_hat)
+  out <- list(Effect = u_hat, Effect.Var = sigma_hat)
   return(out)
 
 
