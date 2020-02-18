@@ -22,11 +22,11 @@ A list of eight components:
   \item{Recodedmarkers}{A {0, 1, 2} or {0, 2} coded marker matrix}
   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and A vector of all genotype combinations frequencies in the population}
   \item{Effect.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions based on effect size estimations}
-  \item{var.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions baed on effect size variznce estimations}
+  \item{Var.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions baed on effect size variznce estimations}
   \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effects}
-  \item{Effect.variance}{A numeric vector of all estimated pairwise SNP interaction effects variances}
+  \item{Effect.Variance}{A numeric vector of all estimated pairwise SNP interaction effects variances}
   \item{Effect.Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes}
-  \item{Var.prediction}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes variances}
+  \item{Var.Prediction}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes variances}
 }
 }
 \description{
@@ -38,7 +38,7 @@ data(wheat)
 N <- length(Phenotype)
 n <- 60
 test <- sample(1:N,n)
-M <- wheat.X[,1:10]
+M <- wheat.X
 Phenotype[test] <- NA
 sERRBLUP <- sERRBLUP(M, Phenotype, 10, cores=15)
 
