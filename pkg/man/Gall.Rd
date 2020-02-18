@@ -15,8 +15,8 @@ Gall(m, cores = 1)
 A list of two components G and Pi
 
 \describe{
-  \item{G}{ERRBLUP relationship matrix with row names and column names of all the individuals}
-  \item{Pi}{A vector of all genotype combinations frequencies in the population}
+  \item{G}{ERRBLUP relationship matrix}
+  \item{P}{A vector of all genotype combinations frequencies in the population}
 }
 }
 \description{
@@ -26,9 +26,8 @@ Function to generate relationship matrix based on all pairwise SNP interactions
 library(BGLR)
 data(wheat)
 m <- Recodemarkers(wheat.X)
-rownames(m) <- names(wheat.Y[,3])
 G_ERRBLUP <- Gall(m, cores=15)
 G <- G_ERRBLUP$G
-pi <- G_ERRBLUP$Pi
+P <- G_ERRBLUP$P
 
 }
