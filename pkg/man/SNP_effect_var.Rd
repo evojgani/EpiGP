@@ -4,18 +4,16 @@
 \alias{SNP_effect_var}
 \title{Pairwise SNP Interaction Effects and variances Estimation Function}
 \usage{
-SNP_effect_var(m, Pheno_train, G_ERRBLUP, Pi, Trainset, cores = 1)
+SNP_effect_var(m, Pheno, G_ERRBLUP, P, cores = 1)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns}
+\item{m}{{0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns}
 
-\item{Pheno_train}{A subset of one numeric phenotype vector as a training set with names for each phenotypic value}
+\item{Pheno}{A numeric vector of phenotypes}
 
-\item{G_ERRBLUP}{EERRBLUP relationship matrix with row names and column names of all individuals}
+\item{G_ERRBLUP}{EERRBLUP relationship matrix}
 
-\item{Pi}{A vector of all genotype combinations frequencies in the population}
-
-\item{Trainset}{A vector of individuals which are in the training set}
+\item{P}{A vector of all genotype combinations frequencies in the population}
 
 \item{cores}{The number of cores with the default value of 1}
 }
@@ -33,33 +31,15 @@ Function to calculate all pairwise SNP interaction effects
 \examples{
 library(BGLR)
 data(wheat)
-geno <- wheat.X
-t1 <- sample(1:ncol(geno), 20)
-t2 <- sample(1:ncol(geno), 20)
-y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
-t1 <- sample(1:ncol(geno), 20)
-t2 <- sample(1:ncol(geno), 20)
-y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
-t1 <- sample(1:ncol(geno), 20)
-t2 <- sample(1:ncol(geno), 20)
-y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
-t1 <- sample(1:ncol(geno), 20)
-t2 <- sample(1:ncol(geno), 20)
-y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
-y <- y1+y2+y3+y4
-pheno <- scale(y)
-names(pheno) <- names(wheat.Y[,1])
-N <- length(pheno)
+N <- length(Phenotype)
 n <- 60
 test <- sample(1:N,n)
-training <- (1:N)[-test]
-pheno_train <- pheno[training]
-m <- Recodemarkers(wheat.X)
-rownames(m) <- names(pheno)
+Phenotype[test] <- NA
+m <- Recodemarkers(wheat.X[,1:10])
 G_ERRBLUP <- Gall(m, cores=15)
 G <- G_ERRBLUP$G
-pi <- G_ERRBLUP$Pi
-Estimation <- SNP_effect_var(m, pheno_train, G, pi, training, cores=15)
+P <- G_ERRBLUP$P
+Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
 t_hat <- Estimation$effect
 sigma_hat <- Estimation$effectvar
 
