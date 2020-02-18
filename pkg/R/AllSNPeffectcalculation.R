@@ -3,11 +3,10 @@
 #'
 #' @description Function to calculate all pairwise SNP interaction effects
 #'
-#' @param m {0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns
-#' @param Pheno_train A subset of one numeric phenotype vector as a training set with names for each phenotypic value
-#' @param G_ERRBLUP EERRBLUP relationship matrix with row names and column names of all individuals
-#' @param Pi A vector of all genotype combinations frequencies in the population
-#' @param Trainset A vector of individuals which are in the training set
+#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param Pheno A numeric vector of phenotypes
+#' @param G_ERRBLUP EERRBLUP relationship matrix
+#' @param P A vector of all genotype combinations frequencies in the population
 #' @param cores The number of cores with the default value of 1
 #'
 #'@return A list of two components effect and effectvar
@@ -21,33 +20,15 @@
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' geno <- wheat.X
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y1 <- rowSums((geno[,t1]==2) * (geno[,t2]==2))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y2 <- rowSums((geno[,t1]==2) * (geno[,t2]==0))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y3 <- rowSums((geno[,t1]==0) * (geno[,t2]==2))
-#' t1 <- sample(1:ncol(geno), 20)
-#' t2 <- sample(1:ncol(geno), 20)
-#' y4 <- rowSums((geno[,t1]==0) * (geno[,t2]==0))
-#' y <- y1+y2+y3+y4
-#' pheno <- scale(y)
-#' names(pheno) <- names(wheat.Y[,1])
-#' N <- length(pheno)
+#' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' training <- (1:N)[-test]
-#' pheno_train <- pheno[training]
-#' m <- Recodemarkers(wheat.X)
-#' rownames(m) <- names(pheno)
+#' Phenotype[test] <- NA
+#' m <- Recodemarkers(wheat.X[,1:10])
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
-#' pi <- G_ERRBLUP$Pi
-#' Estimation <- SNP_effect_var(m, pheno_train, G, pi, training, cores=15)
+#' P <- G_ERRBLUP$P
+#' Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
 #' t_hat <- Estimation$effect
 #' sigma_hat <- Estimation$effectvar
 #'
@@ -55,21 +36,16 @@
 #'
 
 
-SNP_effect_var <- function(m, Pheno_train, G_ERRBLUP, Pi, Trainset, cores=1){
+SNP_effect_var <- function(m, Pheno, G_ERRBLUP, P, cores=1){
 
-  if(is.null(row.names(m))|is.null(names(Pheno_train))){
 
-    stop("The individuals are not named")
+  Y <- data.frame(ID = 1:length(Pheno), observation = Pheno)
+  phenosid <- Y[stats::complete.cases(Y[,2]),]
 
-  } else {
-
-  Z <- t(m)
-  nsnp <- nrow(Z)
-  nindi <- ncol(Z)
-
-  phenosid <- data.frame(ID = names(Pheno_train),observation = Pheno_train)
-  y <- phenosid[stats::complete.cases(phenosid[,2]), 2]
+  y <- phenosid[, 2]
   ntrain <- length(y)
+
+  Trainset <- phenosid[,1]
 
   Gall_train <- G_ERRBLUP[Trainset, Trainset]
 
@@ -89,6 +65,10 @@ SNP_effect_var <- function(m, Pheno_train, G_ERRBLUP, Pi, Trainset, cores=1){
   }
 
   Rest_term <- (chol2inv(chol(Gall_train + R*lambda)) %*% multi)
+
+  Z <- t(m)
+  nsnp <- nrow(Z)
+  nindi <- ncol(Z)
 
   Z0 <- (Z==0)*2L
   Z1 <- (Z==1)*2L
@@ -245,13 +225,13 @@ SNP_effect_var <- function(m, Pheno_train, G_ERRBLUP, Pi, Trainset, cores=1){
     }
   }
 
-  u_hat <- u_hat  * 1/ 2 / sum(Pi*(1-Pi))
-  sigma_hat <- (u_hat^2)*2*Pi*(1-Pi)
+  u_hat <- u_hat  * 1/ 2 / sum(P*(1-P))
+  sigma_hat <- (u_hat^2)*2*P*(1-P)
 
   out <- list(effect = u_hat, effectvar = sigma_hat)
   return(out)
 
-  }
+
 }
 
 
