@@ -17,13 +17,13 @@
 #' n <- 60
 #' test <- sample(1:N,n)
 #' Phenotype[test] <- NA
-#' m <- Recodemarkers(wheat.X[,1:10])
+#' m <- Recodemarkers(wheat.X)
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
 #' P <- G_ERRBLUP$P
 #' Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
-#' t_hat <- Estimation$effect
-#' sigma_hat <- Estimation$effectvar
+#' t_hat <- Estimation$Effect
+#' sigma_hat <- Estimation$Effect.Var
 #' k <- 10
 #' Gtop_effect <- Gtop(m, t_hat, k, cores=15)
 #' Gtop_var <- Gtop(m, sigma_hat, k, cores=15)
