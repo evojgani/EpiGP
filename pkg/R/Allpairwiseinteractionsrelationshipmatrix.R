@@ -9,8 +9,8 @@
 #'@return A list of two components G and Pi
 #'
 #' \describe{
-#'   \item{G}{ERRBLUP relationship matrix with row names and column names of all the individuals}
-#'   \item{Pi}{A vector of all genotype combinations frequencies in the population}
+#'   \item{G}{ERRBLUP relationship matrix}
+#'   \item{P}{A vector of all genotype combinations frequencies in the population}
 #' }
 #'
 #'
@@ -18,23 +18,16 @@
 #' library(BGLR)
 #' data(wheat)
 #' m <- Recodemarkers(wheat.X)
-#' rownames(m) <- names(wheat.Y[,3])
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
-#' pi <- G_ERRBLUP$Pi
+#' P <- G_ERRBLUP$P
 #'
 #' @export
 #'
 
 Gall <- function(m, cores=1){
 
-  if(is.null(row.names(m))){
-
-    stop("The individuals are not named")
-
-  } else {
-
-     Z <- t(m)
+      Z <- t(m)
 
      nsnp <- nrow(Z)
      nindi <- ncol(Z)
@@ -256,13 +249,11 @@ Gall <- function(m, cores=1){
 
   G_all <- G / (2 * sum(p_i*(1-p_i)))
 
-  rownames(G_all) <- rownames(m)
-  colnames(G_all) <- rownames(m)
 
-  out <- list(G = G_all, Pi = p_i)
+  out <- list(G = G_all, P = p_i)
 
   return(out)
- }
+
 }
 
 
