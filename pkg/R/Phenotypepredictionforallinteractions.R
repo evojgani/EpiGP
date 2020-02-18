@@ -11,7 +11,7 @@
 #' @examples
 #' library(BGLR)
 #' data(wheat)
-#' m <- Recodemarkers(wheat.X[,1:10])
+#' m <- Recodemarkers(wheat.X)
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
 #' N <- length(Phenotype)
