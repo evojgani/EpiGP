@@ -34,8 +34,9 @@ N <- length(Phenotype)
 n <- 60
 test <- sample(1:N,n)
 M <- wheat.X
-Phenotype[test] <- NA
+pheno <- Phenotype
+pheno[test] <- NA
 K=c(90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)
-cross_val <- sERRBLUP_Proportions_Test(M, Phenotype, k=K, cores=15)
+cross_val <- sERRBLUP_Proportions_Test(M, pheno, k=K, cores=15)
 
 }
