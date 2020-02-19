@@ -2,7 +2,7 @@
 % Please edit documentation in R/Phenotypepredictionfortopinteractions.R
 \name{sERRBLUP_Stepwise}
 \alias{sERRBLUP_Stepwise}
-\title{sERRBLUP Phenotype Prediction Function relying on the out put of sERRBLUP Relationship Matrix Function}
+\title{sERRBLUP Phenotype Prediction Function Relying On The Out Put Of sERRBLUP Relationship Matrix Function}
 \usage{
 sERRBLUP_Stepwise(Pheno, Gtop)
 }
@@ -28,7 +28,7 @@ m <- Recodemarkers(wheat.X)
 G_ERRBLUP <- Gall(m, cores=15)
 G <- G_ERRBLUP$G
 P <- G_ERRBLUP$P
-Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
+Estimation <- SNP_Effect_Var(m, Phenotype, G, P, cores=15)
 t_hat <- Estimation$Effect
 sigma_hat <- Estimation$Effect.Var
 k <- 10
