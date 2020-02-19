@@ -8,16 +8,16 @@
 Gtop(m, Estimations, k, cores = 1)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns}
+\item{m}{The \code{{0,1,2}} or \code{{0,2}} coded marker matrix with individuals in the rows and the markers in the columns}
 
 \item{Estimations}{A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
 
-\item{k}{Desired proportion of SNP interactions to be included in the model}
+\item{k}{A desired proportion of SNP interactions to be included in the model}
 
-\item{cores}{The number of cores with the default value of 1}
+\item{cores}{The number of cores with the default value of \code{1}}
 }
 \value{
-sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions
+sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions
 }
 \description{
 Function to generate relationship matrix based on the desired proportion of pairwise SNP interactions
@@ -33,7 +33,7 @@ m <- Recodemarkers(wheat.X)
 G_ERRBLUP <- Gall(m, cores=15)
 G <- G_ERRBLUP$G
 P <- G_ERRBLUP$P
-Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
+Estimation <- SNP_Effect_Var(m, Phenotype, G, P, cores=15)
 t_hat <- Estimation$Effect
 sigma_hat <- Estimation$Effect.Var
 k <- 10
