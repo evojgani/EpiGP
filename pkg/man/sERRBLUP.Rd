@@ -7,22 +7,22 @@
 sERRBLUP(M, Pheno, k, cores = 1)
 }
 \arguments{
-\item{M}{A {-1, 0, 1} or {0, 1} or character coded marker matrix}
+\item{M}{The original marker matrix of \code{{-1,0,1}}, \code{{0,1}}, \code{{0,1,2}}, \code{{0,2}} or character coded markers}
 
 \item{Pheno}{A numeric vector of phenotypes}
 
-\item{k}{Desired proportion of SNP interactions to be included in the model}
+\item{k}{A desired proportion of SNP interactions to be included in the model}
 
-\item{cores}{The number of cores with the default value of 1}
+\item{cores}{The number of cores with the default value of \code{1}}
 }
 \value{
 A list of eight components:
 
 \describe{
-  \item{Recodedmarkers}{A {0, 1, 2} or {0, 2} coded marker matrix}
-  \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and A vector of all genotype combinations frequencies in the population}
-  \item{Effect.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions based on effect size estimations}
-  \item{Var.Relationshipmatrix}{sERRBLUP Relationship matrix for the k percent of pairwise SNP interactions baed on effect size variznce estimations}
+  \item{Recodedmarkers}{A \code{{0,1,2}} or \code{{0,2}} coded marker matrix}
+  \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population}
+  \item{Effect.Relationshipmatrix}{sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions based on effect size estimations}
+  \item{Var.Relationshipmatrix}{sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions based on effect size variance estimations}
   \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effects}
   \item{Effect.Variance}{A numeric vector of all estimated pairwise SNP interaction effects variances}
   \item{Effect.Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes}
@@ -30,7 +30,7 @@ A list of eight components:
 }
 }
 \description{
-Function to do phenotype prediction based on all pairwise SNP interactions
+Function to do phenotype prediction based on desired proportion of pairwise SNP interactions
 }
 \examples{
 library(BGLR)
