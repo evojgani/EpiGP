@@ -7,13 +7,13 @@
 sERRBLUP_Proportions_Test(M, Pheno, k, cores = 1)
 }
 \arguments{
-\item{M}{A {-1, 0, 1} or {0, 1} or character coded marker matrix}
+\item{M}{The original marker matrix of \code{{-1,0,1}}, \code{{0,1}}, \code{{0,1,2}}, \code{{0,2}} or character coded markers}
 
 \item{Pheno}{A numeric vector of phenotypes}
 
-\item{k}{Desired proportion set of SNP interactions to be included in the model wich is proposed to be (90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)}
+\item{k}{A vector of desired proportions of SNP interactions to be included in the model wich is proposed to be \code{(90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)}}
 
-\item{cores}{The number of cores with the default value of 1}
+\item{cores}{The number of cores with the default value of \code{1}}
 }
 \value{
 A data frame of 3 components:
@@ -25,7 +25,7 @@ A data frame of 3 components:
 }
 }
 \description{
-Function to provide predictive abilities obtained from sERRBLUP for series of diffetent pairwise SNP interaction proportions to find the optimum proportion of interactions leading to the highest predictive ability
+Function to provide predictive abilities of sERRBLUP model for series of diffetent proportions of pairwise SNP interactions to find the optimum proportion of interactions leading to the highest predictive ability
 }
 \examples{
 library(BGLR)
