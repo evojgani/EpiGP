@@ -29,8 +29,9 @@
 #' n <- 60
 #' test <- sample(1:N,n)
 #' M <- wheat.X
-#' Phenotype[test] <- NA
-#' sERRBLUP <- sERRBLUP(M, Phenotype, 10, cores=15)
+#' pheno <- Phenotype
+#' pheno[test] <- NA
+#' sERRBLUP <- sERRBLUP(M, pheno, 10, cores=15)
 #'
 #' @export
 #'
