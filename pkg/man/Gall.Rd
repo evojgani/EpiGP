@@ -7,12 +7,12 @@
 Gall(m, cores = 1)
 }
 \arguments{
-\item{m}{{0,1,2} or {0,2} coded marker matrix with named individuals in the rows and the markers in the columns}
+\item{m}{The \code{{0,1,2}} or \code{{0,2}} coded marker matrix with individuals in the rows and the markers in the columns}
 
-\item{cores}{The number of cores with the default value of 1}
+\item{cores}{The number of cores with the default value of \code{1}}
 }
 \value{
-A list of two components G and Pi
+A list of two components G and P
 
 \describe{
   \item{G}{ERRBLUP relationship matrix}
