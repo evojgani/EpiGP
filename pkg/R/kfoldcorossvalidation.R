@@ -1,12 +1,12 @@
 
 #' @title sERRBLUP Predictive Ability Test
 #'
-#' @description Function to provide predictive abilities obtained from sERRBLUP for series of diffetent pairwise SNP interaction proportions to find the optimum proportion of interactions leading to the highest predictive ability
+#' @description Function to provide predictive abilities of sERRBLUP model for series of diffetent proportions of pairwise SNP interactions to find the optimum proportion of interactions leading to the highest predictive ability
 #'
-#' @param M A {-1, 0, 1} or {0, 1} or character coded marker matrix
+#' @param M The original marker matrix of \code{{-1,0,1}}, \code{{0,1}}, \code{{0,1,2}}, \code{{0,2}} or character coded markers
 #' @param Pheno A numeric vector of phenotypes
-#' @param k Desired proportion set of SNP interactions to be included in the model wich is proposed to be (90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)
-#' @param cores The number of cores with the default value of 1
+#' @param k A vector of desired proportions of SNP interactions to be included in the model wich is proposed to be \code{(90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)}
+#' @param cores The number of cores with the default value of \code{1}
 #'
 #'@return A data frame of 3 components:
 #'
@@ -350,7 +350,7 @@ sERRBLUP_Proportions_Test <- function(M, Pheno, k, cores=1){
       Y <- y
       Y[val] <- NA
 
-      SNP_effect_var <- function(m, Pheno, G_ERRBLUP, P, cores=1){
+      SNP_Effect_Var <- function(m, Pheno, G_ERRBLUP, P, cores=1){
 
 
     Y <- data.frame(ID = 1:length(Pheno), observation = Pheno)
@@ -547,7 +547,7 @@ sERRBLUP_Proportions_Test <- function(M, Pheno, k, cores=1){
 
 
       }
-      estimations <- SNP_effect_var(m, Y, G1, P, cores)
+      estimations <- SNP_Effect_Var(m, Y, G1, P, cores)
       t_hat <- estimations$Effect
       sigma_hat <- estimations$Effect.Var
 
