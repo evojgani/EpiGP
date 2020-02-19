@@ -23,12 +23,13 @@
 #' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' Phenotype[test] <- NA
+#' pheno <- Phenotype
+#' pheno[test] <- NA
 #' m <- Recodemarkers(wheat.X)
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
 #' P <- G_ERRBLUP$P
-#' Estimation <- SNP_Effect_Var(m, Phenotype, G, P, cores=15)
+#' Estimation <- SNP_Effect_Var(m, pheno, G, P, cores=15)
 #' t_hat <- Estimation$Effect
 #' sigma_hat <- Estimation$Effect.Var
 #'
