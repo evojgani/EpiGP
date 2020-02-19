@@ -17,8 +17,9 @@
 #' N <- length(Phenotype)
 #' n <- 60
 #' test <- sample(1:N,n)
-#' Phenotype[test] <- NA
-#' Pred_ERRBLUP <- ERRBLUP_Stepwise(Phenotype, G)
+#' pheno <- Phenotype
+#' pheno[test] <- NA
+#' Pred_ERRBLUP <- ERRBLUP_Stepwise(pheno, G)
 #'
 #' @export
 #'
