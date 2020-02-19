@@ -10,7 +10,8 @@ Maintainer: <vojgani@gwdg.de>
 Description: Epistatic relationship matrix based genomic prediction of phenotypes does the phenotype prediction based on two statistical models in R:
     First, Epistatic Random Regression BLUP (ERRBLUP) model as a full epistatic model with all pairwise SNP interactions. ERRBLUP prediction of phenotypes requires ERRBLUP relationship matrix which should be initially calculated. 
     Second, selective Epistatic Random Regression BLUP (sERRBLUP) model as a reduced epistatic model. sERRBLUP model contains a desired proportion of pairwise SNP interactions based on the estimated effects or estimated effects variances. sERRBLUP prediction of phenotypes requires sERRBLUP relationship matrix which should be initially calculated based on Pairwise SNP interaction effects or their variances. 
-    This package provides all the required functions step by step, in addition to one function for ERRBLUP and one function for sERRBLUP which do all the analysis in one step. Besides, the best proportion of pairwise SNP interactions which results in the highest prediction accuracy could be find the functions provided in the package.
+    This package provides all the required functions step by step, in addition to one function for ERRBLUP and one function for sERRBLUP which do all the analysis in one step. 
+    Besides, the best proportion of pairwise SNP interactions which results in the highest prediction accuracy could be find by a defined function in the package.
     The provided dataset for the example of each function of the package is the wheat dataset markers and respective simulated phenotypes. The simulated phenotype is also provide in the package.
 Imports: MASS (>= 7.3.0), EMMREML (>= 3.1), stats (>= 2.15.3)
 Suggests: BGLR (>= 1.0.8), RandomFields (>= 0.5.9), miraculix (>= 0.9.6), RandomFieldsUtils(>= 0.5.3)
