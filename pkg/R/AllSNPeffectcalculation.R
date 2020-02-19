@@ -1,13 +1,13 @@
 
-#' @title Pairwise SNP Interaction Effects and variances Estimation Function
+#' @title Pairwise SNP Interaction Effects And Variances Estimation Function
 #'
 #' @description Function to calculate all pairwise SNP interaction effects
 #'
-#' @param m {0,1,2} or {0,2} coded marker matrix with individuals in the rows and the markers in the columns
+#' @param m The \code{{0,1,2}} or \code{{0,2}} coded marker matrix with individuals in the rows and the markers in the columns
 #' @param Pheno A numeric vector of phenotypes
 #' @param G_ERRBLUP EERRBLUP relationship matrix
 #' @param P A vector of all genotype combinations frequencies in the population
-#' @param cores The number of cores with the default value of 1
+#' @param cores The number of cores with the default value of \code{1}
 #'
 #'@return A list of two components effect and effectvar
 #'
@@ -28,7 +28,7 @@
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
 #' P <- G_ERRBLUP$P
-#' Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
+#' Estimation <- SNP_Effect_Var(m, Phenotype, G, P, cores=15)
 #' t_hat <- Estimation$Effect
 #' sigma_hat <- Estimation$Effect.Var
 #'
@@ -36,7 +36,7 @@
 #'
 
 
-SNP_effect_var <- function(m, Pheno, G_ERRBLUP, P, cores=1){
+SNP_Effect_Var <- function(m, Pheno, G_ERRBLUP, P, cores=1){
 
 
   Y <- data.frame(ID = 1:length(Pheno), observation = Pheno)
