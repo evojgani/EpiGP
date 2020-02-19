@@ -3,14 +3,14 @@
 #'
 #' @description Function to do phenotype prediction based on all pairwise SNP interactions
 #'
-#' @param M A {-1, 0, 1} or {0, 1} or character coded marker matrix
+#' @param M The original marker matrix of \code{{-1,0,1}}, \code{{0,1}}, \code{{0,1,2}}, \code{{0,2}} or character coded markers
 #' @param Pheno A numeric vector of phenotypes
-#' @param cores The number of cores with the default value of 1
+#' @param cores The number of cores with the default value of \code{1}
 #'
 #'@return A list of three components:
 #'
 #' \describe{
-#'   \item{Recodedmarkers}{A {0, 1, 2} or {0, 2} coded marker matrix}
+#'   \item{Recodedmarkers}{A \code{{0,1,2}} or \code{{0,2}} coded marker matrix}
 #'   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population(P)}
 #'   \item{Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method}
 #' }
