@@ -2,7 +2,7 @@
 % Please edit documentation in R/Phenotypepredictionforallinteractions.R
 \name{ERRBLUP_Stepwise}
 \alias{ERRBLUP_Stepwise}
-\title{ERRBLUP Phenotype Prediction Function relying on the out put of ERRBLUP Relationship Matrix Function}
+\title{ERRBLUP Phenotype Prediction Function Relying On The Out Put Of ERRBLUP Relationship Matrix Function}
 \usage{
 ERRBLUP_Stepwise(Pheno, G_ERRBLUP)
 }
