@@ -23,18 +23,19 @@ data(wheat)
 N <- length(Phenotype)
 n <- 60
 test <- sample(1:N,n)
-Phenotype[test] <- NA
+pheno <- Phenotype
+pheno[test] <- NA
 m <- Recodemarkers(wheat.X)
 G_ERRBLUP <- Gall(m, cores=15)
 G <- G_ERRBLUP$G
 P <- G_ERRBLUP$P
-Estimation <- SNP_Effect_Var(m, Phenotype, G, P, cores=15)
+Estimation <- SNP_Effect_Var(m, pheno, G, P, cores=15)
 t_hat <- Estimation$Effect
 sigma_hat <- Estimation$Effect.Var
 k <- 10
 Gtop_effect <- Gtop(m, t_hat, k, cores=15)
 Gtop_var <- Gtop(m, sigma_hat, k, cores=15)
-sERRBLUP_effect <- sERRBLUP_Stepwise(Phenotype, Gtop_effect)
-sERRBLUP_var <- sERRBLUP_Stepwise(Phenotype, Gtop_var)
+sERRBLUP_effect <- sERRBLUP_Stepwise(pheno, Gtop_effect)
+sERRBLUP_var <- sERRBLUP_Stepwise(pheno, Gtop_var)
 
 }
