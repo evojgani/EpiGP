@@ -32,7 +32,8 @@ M <- wheat.X
 N <- length(Phenotype)
 n <- 60
 test <- sample(1:N,n)
-Phenotype[test] <- NA
-ERRBLUP <- ERRBLUP(M, Phenotype)
+pheno <- Phenotype
+pheno[test] <- NA
+ERRBLUP <- ERRBLUP(M, pheno)
 
 }
