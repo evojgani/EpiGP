@@ -1,5 +1,5 @@
 
-#' @title sERRBLUP Phenotype Prediction Function relying on the out put of sERRBLUP Relationship Matrix Function
+#' @title sERRBLUP Phenotype Prediction Function Relying On The Out Put Of sERRBLUP Relationship Matrix Function
 #'
 #' @description Function to do phenotype prediction based on the desired proportion of pairwise SNP interactions
 #'
@@ -19,7 +19,7 @@
 #' G_ERRBLUP <- Gall(m, cores=15)
 #' G <- G_ERRBLUP$G
 #' P <- G_ERRBLUP$P
-#' Estimation <- SNP_effect_var(m, Phenotype, G, P, cores=15)
+#' Estimation <- SNP_Effect_Var(m, Phenotype, G, P, cores=15)
 #' t_hat <- Estimation$Effect
 #' sigma_hat <- Estimation$Effect.Var
 #' k <- 10
