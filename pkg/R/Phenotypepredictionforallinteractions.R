@@ -1,5 +1,5 @@
 
-#' @title ERRBLUP Phenotype Prediction Function relying on the out put of ERRBLUP Relationship Matrix Function
+#' @title ERRBLUP Phenotype Prediction Function Relying On The Out Put Of ERRBLUP Relationship Matrix Function
 #'
 #' @description Function to do phenotype prediction based on all pairwise SNP interactions
 #'
