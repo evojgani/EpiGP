@@ -11,7 +11,7 @@
 #'
 #' \describe{
 #'   \item{Recodedmarkers}{A \code{{0,1,2}} or \code{{0,2}} coded marker matrix}
-#'   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population(P)}
+#'   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population (P)}
 #'   \item{Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on ERRBLUP method}
 #' }
 #'
