@@ -21,8 +21,8 @@ SNP_Effect_Var(m, Pheno, G_ERRBLUP, P, cores = 1)
 A list of two components effect and effectvar
 
 \describe{
-  \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effects}
-  \item{Effect.Var}{A numeric vector of all estimated pairwise SNP interaction effects variances}
+  \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effect sizes}
+  \item{Effect.Var}{A numeric vector of all estimated pairwise SNP interaction effect variances}
 }
 }
 \description{
