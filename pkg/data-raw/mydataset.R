@@ -23,9 +23,11 @@ Phenotype <- scale(y)
 names(Phenotype) <- names(wheat.Y[,1])
 save(Phenotype, file=paste('data-raw/Phenotype_wheat', '.Rdata', sep = ''))
 
-usethis::use_data(Phenotype_wheat, overwrite = TRUE)
+usethis::use_data(Phenotype, overwrite = TRUE)
 
 
 install.packages("sinew")
 devtools::install_github("mdlincoln/docthis")
+
+
 
