@@ -10,14 +10,14 @@ Gtop(m, Estimations, k, cores = 1)
 \arguments{
 \item{m}{The \code{{0,1,2}} or \code{{0,2}} coded marker matrix with individuals in the rows and the markers in the columns}
 
-\item{Estimations}{A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances}
+\item{Estimations}{A numeric vector of all estimated pairwise SNP interaction effect sizes or all estimated pairwise SNP interaction effect variances}
 
 \item{k}{A desired proportion of SNP interactions to be included in the model}
 
 \item{cores}{The number of cores with the default value of \code{1}}
 }
 \value{
-sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions
+sERRBLUP Relationship matrix when \code{k} percent of pairwise SNP interactions maintained in the model
 }
 \description{
 Function to generate relationship matrix based on the desired proportion of pairwise SNP interactions
