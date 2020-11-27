@@ -11,7 +11,7 @@ sERRBLUP_Proportions_Test(M, Pheno, k, cores = 1)
 
 \item{Pheno}{A numeric vector of phenotypes}
 
-\item{k}{A vector of desired proportions of SNP interactions to be included in the model wich is proposed to be \code{(90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)}}
+\item{k}{A vector of desired proportions of SNP interactions to be included in the model wich is proposed to be \code{(10, 5, 1, 0.1)}}
 
 \item{cores}{The number of cores with the default value of \code{1}}
 }
@@ -19,9 +19,9 @@ sERRBLUP_Proportions_Test(M, Pheno, k, cores = 1)
 A data frame of 3 components:
 
 \describe{
-  \item{Desired.Proportion}{The proportion of SNP interactions which maintained in sERRBLUP model}
-  \item{PA.Effcet}{sERRBLUP predictive ability based on effect sizes selection}
-  \item{PA.Var}{sERRBLUP predictive ability based on effect variances selection}
+  \item{Desired.Proportion}{The proportion of SNP interactions maintained in the sERRBLUP model}
+  \item{PA.Effcet}{sERRBLUP predictive ability based on effect sizes}
+  \item{PA.Var}{sERRBLUP predictive ability based on effect variances}
 }
 }
 \description{
@@ -36,7 +36,7 @@ test <- sample(1:N,n)
 M <- wheat.X
 pheno <- Phenotype
 pheno[test] <- NA
-K=c(90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 1, 0.1)
-cross_val <- sERRBLUP_Proportions_Test(M, pheno, k=K, cores=15)
+k=c(10, 5, 1, 0.1)
+cross_val <- sERRBLUP_Proportions_Test(M, pheno, k, cores=15)
 
 }
