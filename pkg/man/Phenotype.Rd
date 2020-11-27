@@ -3,8 +3,10 @@
 \docType{data}
 \name{Phenotype}
 \alias{Phenotype}
-\title{Simulated wheat Phenotypes}
-\format{A Phenotypic vector of length \code{599}}
+\title{Simulated Wheat Phenotypes}
+\format{
+A Phenotypic vector of length \code{599}
+}
 \usage{
 Phenotype
 }
