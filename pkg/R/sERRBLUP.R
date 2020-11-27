@@ -13,13 +13,13 @@
 #'
 #' \describe{
 #'   \item{Recodedmarkers}{A \code{{0,1,2}} or \code{{0,2}} coded marker matrix}
-#'   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population}
-#'   \item{Effect.Relationshipmatrix}{sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions based on effect size estimations}
-#'   \item{Var.Relationshipmatrix}{sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions based on effect size variance estimations}
-#'   \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effects}
-#'   \item{Effect.Variance}{A numeric vector of all estimated pairwise SNP interaction effects variances}
+#'   \item{Relationshipmatrix}{A list of two components: ERRBLUP relationship matrix (G) and a vector of all genotype combinations frequencies in the population (P)}
+#'   \item{Effect.Relationshipmatrix}{sERRBLUP Relationship matrix when \code{k} percent of pairwise SNP interactions maintained in the model based on absolute effect size estimations}
+#'   \item{Var.Relationshipmatrix}{sERRBLUP Relationship matrix when \code{k} percent of pairwise SNP interactions maintained in the model based on effect variance estimations}
+#'   \item{Effect}{A numeric vector of all estimated pairwise SNP interaction effect sizes}
+#'   \item{Effect.Variance}{A numeric vector of all estimated pairwise SNP interaction effect variances}
 #'   \item{Effect.Predictions}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes}
-#'   \item{Var.Prediction}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect sizes variances}
+#'   \item{Var.Prediction}{A numeric vector of both phenotype estimations of training set and phenotype predictions of test set based on effect variances}
 #' }
 #'
 #' @examples
