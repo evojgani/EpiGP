@@ -4,11 +4,11 @@
 #' @description Function to generate relationship matrix based on the desired proportion of pairwise SNP interactions
 #'
 #' @param m The \code{{0,1,2}} or \code{{0,2}} coded marker matrix with individuals in the rows and the markers in the columns
-#' @param Estimations A numeric vector of all estimated pairwise SNP interaction effects or all estimated pairwise SNP interaction effects variances
+#' @param Estimations A numeric vector of all estimated pairwise SNP interaction effect sizes or all estimated pairwise SNP interaction effect variances
 #' @param k A desired proportion of SNP interactions to be included in the model
 #' @param cores The number of cores with the default value of \code{1}
 #'
-#' @return sERRBLUP Relationship matrix for the \code{k} percent of pairwise SNP interactions
+#' @return sERRBLUP Relationship matrix when \code{k} percent of pairwise SNP interactions maintained in the model
 #'
 #' @examples
 #' library(BGLR)
