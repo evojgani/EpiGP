@@ -22,5 +22,9 @@ software and other kinds of works. More details on GPL-3 License is provided in 
 https://www.r-project.org/Licenses/GPL-3
 
 
+# Update
+Version 0.3.0
+Defining five new functions for ERRBLUP and sERRBLUP epistatic genomic prediction of phenotypes in bivariate statistical framework  
+Simulating two correlated phenotypic traits for bivariate epistatic models
 
 
